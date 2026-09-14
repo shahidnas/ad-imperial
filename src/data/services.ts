@@ -1,0 +1,171 @@
+export interface Service {
+  /** URL-safe identifier (used for anchors and enquiry pre-fill). */
+  slug: string;
+  number: string;
+  title: string;
+  /** Short one-line label. */
+  category: string;
+  /** Card / summary description. */
+  description: string;
+  /** Longer description shown on the services page. */
+  detail: string;
+  /** Key talking points. */
+  highlights: string[];
+  /**
+   * Representative photo. Provide either `image` or `video` (not both) —
+   * the media card renders whichever is present, preferring `video` when
+   * both happen to be set.
+   */
+  image?: string;
+  imageAlt?: string;
+  /** Representative video, used instead of `image` when set. */
+  video?: string;
+  /** Accessible description of the video, for `aria-label`. */
+  videoAlt?: string;
+}
+
+export const services: Service[] = [
+  {
+    slug: "acp-sign-boards",
+    number: "01",
+    title: "ACP Sign Boards",
+    category: "Signage Solution",
+    description:
+      "Clean, contemporary and durable signage crafted with premium ACP materials for a refined business presence.",
+    detail:
+      "Aluminium composite panel boards give your storefront a flat, seamless finish that holds its colour and shape for years. We fabricate the base, route the graphics and mount everything to a level, weather-ready frame.",
+    highlights: [
+      "Weather and fade resistant",
+      "Seamless matte or gloss finishes",
+      "Ideal for shopfronts and building fascias",
+    ],
+    image: "/services/acp2.jpeg",
+    imageAlt: "ACP sign board signage mounted on a storefront fascia",
+  },
+  {
+    slug: "stainless-steel-letters",
+    number: "02",
+    title: "Stainless Steel Letters",
+    category: "Signage Solution",
+    description:
+      "Premium metallic lettering designed to deliver depth, elegance and a sophisticated architectural finish.",
+    detail:
+      "Brushed or mirror-polished stainless steel letters add a solid, architectural weight to a facade. Each letter is cut, finished and stud-mounted for a crisp shadow line and a lasting premium look.",
+    highlights: [
+      "Brushed, polished or coloured finishes",
+      "Corrosion resistant for outdoor use",
+      "Optional halo (back-lit) illumination",
+    ],
+    image: "/services/stainless-steel-letters.jpg",
+    imageAlt: "Polished stainless steel channel letters on a building wall",
+  },
+  {
+    slug: "gold-acrylic-letters",
+    number: "03",
+    title: "Gold Acrylic Letters",
+    category: "Signage Solution",
+    description:
+      "Modern acrylic signage with precise detailing, smooth finishes and a distinctive premium appearance.",
+    detail:
+      "Acrylic letters are lightweight, colour-rich and easy to shape into custom typography. They work equally well indoors for reception walls and outdoors for shopfronts, with or without lighting.",
+    highlights: [
+      "Wide colour and thickness range",
+      "Sharp edges and smooth faces",
+      "Great for logos and reception branding",
+    ],
+    image: "/services/gold-acrylic-letter-2.jpeg",
+    imageAlt: "Golden acrylic letters forming a business name",
+  },
+  {
+    slug: "led-neon-signage",
+    number: "04",
+    title: "LED & Neon Signage",
+    category: "Signage Solution",
+    description:
+      "Eye-catching illuminated signage designed to make your brand stand out from day to night.",
+    detail:
+      "From flexible LED neon to back-lit and edge-lit boards, illuminated signage keeps your brand visible after dark. We size the lighting for even brightness and a clean, low-maintenance install.",
+    highlights: [
+      "Energy-efficient LED modules",
+      "Custom neon-style bends and script",
+      "Even, flicker-free illumination",
+    ],
+    image: "/services/neon-sign-1.jpeg",
+    imageAlt: "Illuminated neon-style sign glowing at night",
+  },
+  {
+    slug: "channel-letters",
+    number: "05",
+    title: "Channel Letters",
+    category: "Signage Solution",
+    description:
+      "Dimensional channel lettering engineered for maximum visual impact and a strong brand presence.",
+    detail:
+      "Built-up channel letters give depth and presence to a facade. Faces, returns and trim caps are assembled per letter, with front-lit or halo-lit options for round-the-clock visibility.",
+    highlights: [
+      "Front-lit or halo-lit options",
+      "Custom depth and typography",
+      "High daytime and nighttime impact",
+    ],
+    image: "/services/channel-letter-2.jpeg",
+    imageAlt: "Dimensional channel letters mounted on a facade",
+  },
+  {
+  slug: "led-letters",
+  number: "06",
+  title: "LED Letters",
+  category: "Signage Solution",
+  description:
+    "Premium illuminated LED letters crafted to give your brand a bold, modern and highly visible presence.",
+  detail:
+    "LED letters combine dimensional lettering with energy-efficient illumination for a clean and premium look. They are ideal for storefronts, building facades, reception areas and commercial spaces.",
+  highlights: [
+    "Bright and energy-efficient LED lighting",
+    "Front-lit or halo-lit options",
+    "Custom fonts, sizes and finishes",
+  ],
+  image: "/services/led-letter-3.jpeg",
+  imageAlt: "Illuminated LED letters mounted on a commercial building",
+},
+{
+  slug: "acp-cladding",
+  number: "07",
+  title: "ACP Cladding",
+  category: "Architectural Solution",
+  description:
+    "Modern ACP cladding solutions designed to transform building facades with a clean, elegant and contemporary finish.",
+  detail:
+    "ACP cladding creates a seamless architectural facade while protecting the exterior surface. We provide custom fabrication, precision cutting and professional installation for commercial buildings and storefronts.",
+  highlights: [
+    "Modern and seamless facade finish",
+    "Weather-resistant and durable panels",
+    "Custom colours, patterns and designs",
+  ],
+  image: "/services/acp-cladding-1.jpeg",
+  imageAlt: "Modern ACP cladding installed on a commercial building facade",
+},
+  {
+    slug: "video-call",
+    number: "08",
+    title: "Our Video Call Project",
+    category: "Video Call",
+    description:
+      "A look at how we consult, present and sign off signage projects remotely — from first call to final design.",
+    detail:
+      "For clients who can't visit in person, we run the full consultation over video — walking through material options, sizing and mock-ups live, so the brief is agreed before any fabrication begins.",
+    highlights: [
+      "Live walkthrough of materials and finishes",
+      "Real-time design feedback and sign-off",
+      "Convenient for out-of-town and busy clients",
+    ],
+    // Actual file already in /public/services (filename contains spaces,
+    // so it's referenced URL-encoded).
+    video:
+      "/services/WhatsApp%20Video%202026-09-06%20at%2011.52.46%20PM.mp4",
+    videoAlt: "Recording of a client video call walkthrough for a signage project",
+  },
+];
+
+export function getService(slug: string): Service | undefined {
+  return services.find((service) => service.slug === slug);
+}
