@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BrandLogo from "@/src/components/BrandLogo";
 import { footerNav, legalNav, routes } from "@/src/lib/navigation";
 import { services } from "@/src/data/services";
 import { mailtoHref, siteConfig, telHref } from "@/src/lib/site";
@@ -34,8 +35,10 @@ export default function Footer() {
           <div className="footer-grid">
             <div className="footer-brand">
               <Link href={routes.home} className="footer-logo">
-                <span>AD</span>
-                <strong>IMPERIAL</strong>
+                <BrandLogo tone="light" className="footer-logo-image" />
+                <span className="footer-logo-text brand-lockup-text" aria-hidden="true">
+                  Imperial
+                </span>
               </Link>
 
               <p>

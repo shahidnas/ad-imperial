@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import BrandLogo from "@/src/components/BrandLogo";
 import { primaryNav, routes } from "@/src/lib/navigation";
-import { siteConfig } from "@/src/lib/site";
 import { cx } from "@/src/lib/utils";
 
 export default function Header() {
@@ -29,9 +29,10 @@ export default function Header() {
       <div className="container">
         <nav className="header-nav" aria-label="Primary">
           <Link href={routes.home} className="site-logo" onClick={closeMenu}>
-            <span className="logo-mark">AD</span>
-            <span className="logo-name">IMPERIAL</span>
-            <span className="visually-hidden">{siteConfig.name} — home</span>
+            <BrandLogo className="site-logo-image" priority />
+            <span className="site-logo-text brand-lockup-text" aria-hidden="true">
+              Imperial
+            </span>
           </Link>
 
           <div className="desktop-nav">

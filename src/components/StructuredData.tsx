@@ -19,6 +19,7 @@ export default function StructuredData() {
     description: siteConfig.description,
     url: siteConfig.url,
     image: absoluteUrl("/hero/bhikaram.jpeg"),
+    logo: absoluteUrl("/brand/ad-imperial-logo.png"),
     areaServed: siteConfig.area,
     makesOffer: services.map((service) => ({
       "@type": "Offer",

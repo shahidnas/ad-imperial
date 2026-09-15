@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import BrandLogo from "@/src/components/BrandLogo";
 
 const processSteps = [
   {
@@ -126,7 +127,8 @@ export default function OurProcess() {
         <div className="process-bottom">
 
           <div className="process-bottom-mark">
-            <span>AD</span>
+            <BrandLogo tone="light" className="process-bottom-mark-image" />
+            <span className="visually-hidden">AD Imperial</span>
           </div>
 
           <div className="process-bottom-text">

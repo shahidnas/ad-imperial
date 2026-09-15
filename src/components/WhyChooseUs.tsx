@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import BrandLogo from "@/src/components/BrandLogo";
 import { companyStats } from "@/src/lib/constants";
 import { cx } from "@/src/lib/utils";
 
@@ -70,8 +71,8 @@ export default function WhyChooseUs() {
           <div className="why-brand-panel">
 
             <div className="why-brand-top">
-              <span>AD</span>
-              <span>IMPERIAL</span>
+              <BrandLogo tone="light" className="why-brand-top-image" />
+              <span className="visually-hidden">AD Imperial</span>
             </div>
 
             <div className="why-brand-center">

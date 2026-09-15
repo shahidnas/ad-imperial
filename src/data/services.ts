@@ -56,7 +56,7 @@ export const services: Service[] = [
       "Corrosion resistant for outdoor use",
       "Optional halo (back-lit) illumination",
     ],
-    image: "/services/stainless-steel-letters.jpg",
+    image: "/services/stainless-steel-letters.jpeg",
     imageAlt: "Polished stainless steel channel letters on a building wall",
   },
   {
@@ -145,24 +145,24 @@ export const services: Service[] = [
   imageAlt: "Modern ACP cladding installed on a commercial building facade",
 },
   {
-    slug: "video-call",
+    slug: "video-wall",
     number: "08",
-    title: "Our Video Call Project",
-    category: "Video Call",
+    title: "Video Wall",
+    category: "Video Wall",
     description:
-      "A look at how we consult, present and sign off signage projects remotely — from first call to final design.",
+      "Large-format outdoor LED video walls that turn a building facade into a bright, dynamic display for your brand.",
     detail:
-      "For clients who can't visit in person, we run the full consultation over video — walking through material options, sizing and mock-ups live, so the brief is agreed before any fabrication begins.",
+      "Video walls are built from weatherproof LED panels, structurally mounted to the facade and calibrated for even brightness and colour — ideal where a static sign isn't enough for a busy commercial street front.",
     highlights: [
-      "Live walkthrough of materials and finishes",
-      "Real-time design feedback and sign-off",
-      "Convenient for out-of-town and busy clients",
+      "Bright, full-colour LED display, visible day and night",
+      "Weatherproof panels built for outdoor installation",
+      "Professional structural mounting and calibration",
     ],
     // Actual file already in /public/services (filename contains spaces,
     // so it's referenced URL-encoded).
     video:
       "/services/WhatsApp%20Video%202026-09-06%20at%2011.52.46%20PM.mp4",
-    videoAlt: "Recording of a client video call walkthrough for a signage project",
+    videoAlt: "Installation footage of an outdoor LED video wall mounted on a commercial building facade",
   },
 ];
 

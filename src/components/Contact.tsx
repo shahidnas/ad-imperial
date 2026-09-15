@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BrandLogo from "@/src/components/BrandLogo";
 import { routes } from "@/src/lib/navigation";
 import { siteConfig, telHref } from "@/src/lib/site";
 
@@ -93,8 +94,8 @@ export default function Contact() {
           <div className="quote-bottom">
 
             <div className="quote-brand">
-              <span>AD</span>
-              <strong>IMPERIAL</strong>
+              <BrandLogo tone="light" className="quote-brand-image" />
+              <span className="visually-hidden">AD Imperial</span>
             </div>
 
             <div className="quote-bottom-line" />

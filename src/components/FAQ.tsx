@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BrandLogo from "@/src/components/BrandLogo";
 import FaqAccordion from "@/src/components/FaqAccordion";
 import { faqs } from "@/src/data/faq";
 import { routes } from "@/src/lib/navigation";
@@ -29,8 +30,10 @@ export default function FAQ() {
         <div className="faq-layout">
           <div className="faq-side">
             <div className="faq-side-logo">
-              <span>AD</span>
-              <small>IMPERIAL</small>
+              <BrandLogo tone="light" className="faq-side-logo-image" />
+              <span className="faq-side-logo-text brand-lockup-text" aria-hidden="true">
+                Imperial
+              </span>
             </div>
 
             <div className="faq-side-line" />

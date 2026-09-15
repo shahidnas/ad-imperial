@@ -7,7 +7,6 @@ import OurWork from "@/src/components/OurWork";
 import OurProcess from "@/src/components/Process";
 import Services from "@/src/components/Services";
 import StructuredData from "@/src/components/StructuredData";
-import Testimonials from "@/src/components/Testimonials";
 import WhyChooseUs from "@/src/components/WhyChooseUs";
 
 export default function Home() {
@@ -22,7 +21,6 @@ export default function Home() {
         <Clients />
         <WhyChooseUs />
         <OurProcess />
-        <Testimonials />
         <FAQ />
         <Contact />
       </main>

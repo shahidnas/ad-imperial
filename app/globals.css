@@ -109,6 +109,37 @@ img {
 }
 
 /* =========================================
+   BRAND LOGO
+   Single source of truth: /public/brand/ad-imperial-logo.png
+========================================= */
+
+.brand-logo {
+  display: block;
+
+  width: auto;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+/* Knocks the mark out to white for dark backgrounds — same technique used
+   for client logos below. The artwork itself is never recoloured. */
+.brand-logo-light {
+  filter: brightness(0) invert(1);
+}
+
+/* Shared "logo + wordmark" lockup typography — Navbar, FAQ and Footer all
+   use this same treatment so the brand mark reads consistently everywhere
+   it appears with the "Imperial" text. Only size/colour vary per context. */
+.brand-lockup-text {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+
+/* =========================================
    LOGO
 ========================================= */
 
@@ -117,6 +148,8 @@ img {
   align-items: center;
 
   gap: 11px;
+
+  height: 44px;
 
   color: var(--primary);
 
@@ -129,34 +162,13 @@ img {
   color: var(--primary);
 }
 
-.logo-mark {
-  width: 43px;
-  height: 43px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 9px;
-
-  background: var(--primary);
-  color: var(--white);
-
-  font-family: var(--font-heading);
-
-  font-size: 16px;
-  font-weight: 800;
-
-  letter-spacing: -1px;
+.site-logo-image {
+  height: 100%;
 }
 
-.logo-name {
-  font-family: var(--font-heading);
-
-  font-size: 17px;
-  font-weight: 800;
-
-  letter-spacing: 2px;
+.site-logo-text {
+  font-size: 18px;
+  color: inherit;
 }
 
 /* =========================================
@@ -402,16 +414,14 @@ img {
     height: 72px;
   }
 
-  .logo-mark {
-    width: 39px;
-    height: 39px;
-
-    font-size: 15px;
+  .site-logo {
+    height: 36px;
+    gap: 8px;
   }
 
-  .logo-name {
+  .site-logo-text {
     font-size: 15px;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
   }
 }
 
@@ -4143,18 +4153,13 @@ img {
   z-index: 2;
 
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #c9a660;
+  height: 26px;
 }
 
-.why-brand-top span:first-child {
-  font-family: var(--font-heading, Georgia, serif);
-  font-size: 23px;
-  letter-spacing: 1px;
+.why-brand-top-image {
+  height: 100%;
 }
 
 .why-brand-center {
@@ -4952,12 +4957,9 @@ img {
   border-radius: 50%;
 }
 
-.process-bottom-mark span {
-  font-family: var(--font-heading, Georgia, serif);
-
-  font-size: 16px;
-
-  color: #c8a45d;
+.process-bottom-mark-image {
+  width: 32px;
+  height: auto;
 }
 
 .process-bottom-text span {
@@ -5149,661 +5151,6 @@ img {
 
 
 
-
-
-
-
-
-/* =========================================================
-   TESTIMONIALS — LUXURY
-   ========================================================= */
-
-.testimonial-section {
-  position: relative;
-  padding: 125px 0 115px;
-  background: #f5f1e8;
-  color: #191814;
-  overflow: hidden;
-}
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-.testimonial-header {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 70px;
-  align-items: end;
-  margin-bottom: 70px;
-}
-
-.testimonial-eyebrow {
-  color: #9d7837;
-}
-
-.testimonial-eyebrow .section-eyebrow-line {
-  background: #b58b43;
-}
-
-.testimonial-title {
-  margin: 18px 0 0;
-
-  font-family: var(--font-heading, Georgia, serif);
-  font-size: clamp(46px, 5.3vw, 78px);
-  line-height: 0.96;
-  font-weight: 400;
-  letter-spacing: -2.5px;
-}
-
-.testimonial-title span {
-  display: block;
-  color: #a77d36;
-  font-style: italic;
-}
-
-.testimonial-intro {
-  max-width: 420px;
-  margin: 0 0 4px auto;
-
-  color: #706b61;
-  font-size: 15px;
-  line-height: 1.9;
-}
-
-
-/* =========================================================
-   MAIN LAYOUT
-   ========================================================= */
-
-.testimonial-layout {
-  display: grid;
-  grid-template-columns: 0.58fr 1.42fr;
-  min-height: 500px;
-}
-
-
-/* =========================================================
-   BRAND PANEL
-   ========================================================= */
-
-.testimonial-brand {
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  padding: 32px;
-
-  background: #171713;
-  color: #fff;
-
-  overflow: hidden;
-}
-
-.testimonial-brand::before {
-  content: "";
-
-  position: absolute;
-  inset: 14px;
-
-  border: 1px solid rgba(201, 166, 91, 0.38);
-
-  pointer-events: none;
-}
-
-.testimonial-brand::after {
-  content: "";
-
-  position: absolute;
-
-  width: 330px;
-  height: 330px;
-
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  border: 1px solid rgba(201, 166, 91, 0.12);
-  border-radius: 50%;
-
-  box-shadow:
-    0 0 0 45px rgba(201, 166, 91, 0.025),
-    0 0 0 90px rgba(201, 166, 91, 0.015);
-}
-
-.testimonial-brand-top {
-  position: relative;
-  z-index: 2;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  color: #c8a45d;
-
-  font-size: 9px;
-  letter-spacing: 2.5px;
-}
-
-.testimonial-brand-top span:first-child {
-  font-family: var(--font-heading, Georgia, serif);
-  font-size: 25px;
-  letter-spacing: 1px;
-}
-
-.testimonial-quote-mark {
-  position: relative;
-  z-index: 2;
-
-  font-family: Georgia, serif;
-  font-size: 180px;
-  line-height: 0.5;
-
-  color: #c8a45d;
-  opacity: 0.8;
-}
-
-.testimonial-brand-bottom {
-  position: relative;
-  z-index: 2;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  color: rgba(255, 255, 255, 0.38);
-
-  font-size: 8px;
-  letter-spacing: 1.8px;
-}
-
-.testimonial-brand-bottom i {
-  width: 3px;
-  height: 3px;
-
-  border-radius: 50%;
-
-  background: #c8a45d;
-}
-
-
-/* =========================================================
-   MAIN REVIEW
-   ========================================================= */
-
-.testimonial-main {
-  position: relative;
-
-  padding: 65px 75px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  background: #ebe6db;
-
-  border-top: 1px solid #d8d0c1;
-  border-bottom: 1px solid #d8d0c1;
-}
-
-
-/* =========================================================
-   STARS
-   ========================================================= */
-
-.testimonial-stars {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-
-  margin-bottom: 35px;
-}
-
-.testimonial-stars span {
-  color: #b38a42;
-  font-size: 15px;
-  letter-spacing: 3px;
-}
-
-.testimonial-stars small {
-  color: #858076;
-
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-}
-
-
-/* =========================================================
-   QUOTE
-   ========================================================= */
-
-.testimonial-main blockquote {
-  max-width: 800px;
-
-  margin: 0 0 45px;
-
-  font-family: var(--font-heading, Georgia, serif);
-
-  font-size: clamp(27px, 3vw, 43px);
-  line-height: 1.22;
-  font-weight: 400;
-
-  letter-spacing: -0.6px;
-
-  color: #25231e;
-}
-
-
-/* =========================================================
-   CLIENT
-   ========================================================= */
-
-.testimonial-client {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.testimonial-avatar {
-  width: 50px;
-  height: 50px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  background: #171713;
-
-  color: #c8a45d;
-
-  font-family: var(--font-heading, Georgia, serif);
-  font-size: 20px;
-}
-
-.testimonial-client h3 {
-  margin: 0 0 5px;
-
-  font-family: var(--font-heading, Georgia, serif);
-
-  font-size: 17px;
-  font-weight: 500;
-
-  color: #24221d;
-}
-
-.testimonial-client p {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  margin: 0;
-
-  color: #817b70;
-
-  font-size: 10px;
-  letter-spacing: 0.4px;
-}
-
-.testimonial-client p span {
-  color: #b38a42;
-}
-
-
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-
-.testimonial-navigation {
-  position: absolute;
-
-  right: 40px;
-  bottom: 35px;
-
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
-
-.testimonial-counter {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  color: #9b7639;
-
-  font-family: var(--font-heading, Georgia, serif);
-  font-size: 13px;
-}
-
-.testimonial-counter i {
-  width: 25px;
-  height: 1px;
-
-  background: #bda97d;
-}
-
-.testimonial-nav-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-.testimonial-nav-buttons button {
-  width: 42px;
-  height: 42px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid #c9bda9;
-  border-radius: 50%;
-
-  background: transparent;
-
-  color: #8f6b30;
-
-  cursor: pointer;
-
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease;
-}
-
-.testimonial-nav-buttons button:hover {
-  background: #b58b43;
-  color: #fff;
-  border-color: #b58b43;
-
-  transform: translateY(-3px);
-}
-
-
-/* =========================================================
-   MINI REVIEW LIST
-   ========================================================= */
-
-.testimonial-mini-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-
-  margin-top: 25px;
-
-  border-top: 1px solid #d4ccbd;
-  border-bottom: 1px solid #d4ccbd;
-}
-
-.testimonial-mini {
-  position: relative;
-
-  min-height: 105px;
-
-  display: grid;
-  grid-template-columns: 35px 1fr 35px;
-  align-items: center;
-  gap: 15px;
-
-  padding: 18px 25px;
-
-  border: 0;
-  border-right: 1px solid #d4ccbd;
-
-  background: transparent;
-
-  text-align: left;
-
-  cursor: pointer;
-
-  transition:
-    background 0.35s ease,
-    padding 0.35s ease;
-}
-
-.testimonial-mini:last-child {
-  border-right: 0;
-}
-
-.testimonial-mini > span {
-  color: #ae8541;
-
-  font-family: var(--font-heading, Georgia, serif);
-  font-size: 13px;
-}
-
-.testimonial-mini strong {
-  display: block;
-
-  margin-bottom: 5px;
-
-  color: #292720;
-
-  font-family: var(--font-heading, Georgia, serif);
-  font-size: 16px;
-  font-weight: 400;
-}
-
-.testimonial-mini small {
-  color: #888176;
-
-  font-size: 9px;
-  letter-spacing: 0.5px;
-}
-
-.testimonial-mini > i {
-  width: 34px;
-  height: 34px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid #d0c4ae;
-  border-radius: 50%;
-
-  color: #a47a34;
-
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease;
-}
-
-.testimonial-mini:hover,
-.testimonial-mini-active {
-  background: rgba(255, 255, 255, 0.55);
-}
-
-.testimonial-mini:hover > i,
-.testimonial-mini-active > i {
-  background: #b58b43;
-  color: #fff;
-  border-color: #b58b43;
-  transform: translate(2px, -2px);
-}
-
-
-/* =========================================================
-   TABLET
-   ========================================================= */
-
-@media (max-width: 991px) {
-
-  .testimonial-section {
-    padding: 90px 0;
-  }
-
-  .testimonial-header {
-    grid-template-columns: 1fr;
-    gap: 25px;
-    margin-bottom: 55px;
-  }
-
-  .testimonial-intro {
-    margin-left: 0;
-  }
-
-  .testimonial-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .testimonial-brand {
-    min-height: 300px;
-  }
-
-  .testimonial-main {
-    min-height: 470px;
-  }
-
-  .testimonial-mini-list {
-    grid-template-columns: 1fr;
-  }
-
-  .testimonial-mini {
-    border-right: 0;
-    border-bottom: 1px solid #d4ccbd;
-  }
-
-  .testimonial-mini:last-child {
-    border-bottom: 0;
-  }
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 767px) {
-
-  .testimonial-section {
-    padding: 75px 0;
-  }
-
-  .testimonial-title {
-    font-size: 46px;
-    letter-spacing: -1.5px;
-  }
-
-  .testimonial-intro {
-    font-size: 14px;
-  }
-
-  .testimonial-brand {
-    min-height: 250px;
-    padding: 25px;
-  }
-
-  .testimonial-quote-mark {
-    font-size: 120px;
-  }
-
-  .testimonial-main {
-    min-height: 500px;
-    padding: 45px 25px 100px;
-  }
-
-  .testimonial-main blockquote {
-    font-size: 27px;
-    line-height: 1.3;
-    margin-bottom: 35px;
-  }
-
-  .testimonial-navigation {
-    left: 25px;
-    right: 25px;
-    bottom: 30px;
-
-    justify-content: space-between;
-  }
-
-  .testimonial-mini {
-    padding: 18px 15px;
-  }
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-   ========================================================= */
-
-@media (max-width: 480px) {
-
-  .testimonial-title {
-    font-size: 39px;
-  }
-
-  .testimonial-main blockquote {
-    font-size: 24px;
-  }
-
-  .testimonial-client p {
-    flex-wrap: wrap;
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  /* =========================================================
     FAQ — PREMIUM LUXURY
     ========================================================= */
@@ -5957,23 +5304,19 @@ img {
   z-index: 2;
 
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+
+  gap: 9px;
+  height: 36px;
 }
 
-.faq-side-logo span {
-  font-family: var(--font-heading, Georgia, serif);
-
-  font-size: 35px;
-
-  color: #c8a45d;
+.faq-side-logo-image {
+  height: 100%;
 }
 
-.faq-side-logo small {
-  color: rgba(255, 255, 255, 0.42);
-
-  font-size: 8px;
-  letter-spacing: 3px;
+.faq-side-logo-text {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .faq-side-line {
@@ -6290,8 +5633,8 @@ img {
     font-size: 16px;
   }
 
-  .faq-side-logo span {
-    font-size: 30px;
+  .faq-side-logo-text {
+    font-size: 14px;
   }
 }
 
@@ -6614,25 +5957,11 @@ img {
 
   align-items: center;
 
-  gap: 12px;
+  height: 26px;
 }
 
-.quote-brand span {
-  font-family: var(--font-heading, Georgia, serif);
-
-  font-size: 24px;
-
-  color: #c8a45d;
-}
-
-.quote-brand strong {
-  font-size: 8px;
-
-  font-weight: 500;
-
-  letter-spacing: 2px;
-
-  color: rgba(255, 255, 255, 0.42);
+.quote-brand-image {
+  height: 100%;
 }
 
 .quote-bottom-line {
@@ -7062,30 +6391,21 @@ img {
 .footer-logo {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+
+  gap: 10px;
+  height: 42px;
 
   color: #fff;
   text-decoration: none;
 }
 
-.footer-logo span {
-  font-family: var(--font-heading, Georgia, serif);
-
-  font-size: 38px;
-
-  line-height: 1;
-
-  color: #c8a45d;
+.footer-logo-image {
+  height: 100%;
 }
 
-.footer-logo strong {
-  font-size: 10px;
-
-  font-weight: 500;
-
-  letter-spacing: 3px;
-
-  color: rgba(255, 255, 255, 0.62);
+.footer-logo-text {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .footer-brand > p {
@@ -7455,8 +6775,8 @@ img {
     font-size: 34px;
   }
 
-  .footer-logo span {
-    font-size: 32px;
+  .footer-logo-text {
+    font-size: 15px;
   }
 
   .footer-large-brand {
