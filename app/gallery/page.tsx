@@ -3,12 +3,13 @@ import GalleryGrid from "@/src/components/GalleryGrid";
 import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
 import { routes } from "@/src/lib/navigation";
+import { breadcrumbSchema } from "@/src/lib/schema";
 import { getServiceGallery } from "@/src/lib/serviceGallery";
 import { siteConfig } from "@/src/lib/site";
 
 export const metadata: Metadata = {
   title: "Gallery",
-  description: `Signage work by ${siteConfig.name} — ACP sign boards and cladding, stainless steel and acrylic letters, LED and neon signage and channel letters. Filter by type.`,
+  description: `Signage project gallery by ${siteConfig.name} — letter boards, ACP sign boards and cladding, stainless steel and acrylic letters, LED and neon signage and channel letters. Filter by type.`,
   alternates: { canonical: routes.gallery },
   openGraph: {
     title: `Gallery | ${siteConfig.name}`,
@@ -17,11 +18,18 @@ export const metadata: Metadata = {
   },
 };
 
+const breadcrumbJsonLd = breadcrumbSchema([{ name: "Gallery", path: routes.gallery }]);
+
 export default function GalleryPage() {
   const { items, categories } = getServiceGallery();
 
   return (
     <main id="main-content" className="page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       <PageHeader
         eyebrow="Selected Projects"
         title="Signs Made To"

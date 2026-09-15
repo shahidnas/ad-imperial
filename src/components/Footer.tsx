@@ -2,12 +2,16 @@ import Link from "next/link";
 import BrandLogo from "@/src/components/BrandLogo";
 import { footerNav, legalNav, routes } from "@/src/lib/navigation";
 import { services } from "@/src/data/services";
+import { getLocationContent, stateLocationSlugs } from "@/src/data/locationContent";
 import { mailtoHref, siteConfig, telHref } from "@/src/lib/site";
 
 export default function Footer() {
   const tel = telHref();
   const mail = mailtoHref();
   const { address, gstin } = siteConfig.contact;
+  const states = stateLocationSlugs
+    .map((slug) => getLocationContent(slug))
+    .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
 
   return (
     <footer className="luxury-footer">
@@ -79,11 +83,20 @@ export default function Footer() {
               <span className="footer-heading">Services</span>
               <div className="footer-links">
                 {services.map((service) => (
-                  <Link
-                    key={service.slug}
-                    href={`${routes.services}#${service.slug}`}
-                  >
+                  <Link key={service.slug} href={`/services/${service.slug}`}>
                     {service.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="footer-column">
+              <span className="footer-heading">Service Areas</span>
+              <div className="footer-links">
+                <Link href={routes.locations}>All Locations</Link>
+                {states.map((state) => (
+                  <Link key={state.slug} href={`/locations/${state.slug}`}>
+                    {state.name}
                   </Link>
                 ))}
               </div>

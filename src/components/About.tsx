@@ -117,7 +117,11 @@ export default function About() {
               signage to illuminated boards and custom
               letter boards, every project is carefully designed
               and crafted to represent your brand with
-              confidence.
+              confidence. AD Imperial provides custom letter board
+              and signage solutions for businesses, retail stores,
+              offices and commercial properties across{" "}
+              <Link href={routes.locations}>West Bengal and Jharkhand</Link>,
+              and nationally across India.
             </p>
 
             {/* =================================

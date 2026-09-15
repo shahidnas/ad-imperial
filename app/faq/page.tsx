@@ -5,12 +5,13 @@ import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
 import { faqs } from "@/src/data/faq";
 import { routes } from "@/src/lib/navigation";
+import { breadcrumbSchema, faqSchema } from "@/src/lib/schema";
 import { siteConfig } from "@/src/lib/site";
 
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Common questions about signage materials, custom design, installation, timelines and quotations — answered.",
+    "Common questions about letter boards, sign boards, LED signage, materials, installation, timelines, quotations and pan-India service availability — answered.",
   alternates: { canonical: routes.faq },
   openGraph: {
     title: `FAQ | ${siteConfig.name}`,
@@ -21,15 +22,8 @@ export const metadata: Metadata = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: { "@type": "Answer", text: faq.answer },
-  })),
-};
+const faqJsonLd = faqSchema(faqs);
+const breadcrumbJsonLd = breadcrumbSchema([{ name: "FAQ", path: routes.faq }]);
 
 export default function FaqPage() {
   return (
@@ -37,6 +31,10 @@ export default function FaqPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       <PageHeader

@@ -15,10 +15,10 @@ interface HeroSlide {
 const slides: HeroSlide[] = [
   {
     image: "/hero/bhikaram.jpeg",
-    eyebrow: "Premium Signage Solutions",
-    title: "Make Your Brand Impossible to Ignore.",
+    eyebrow: "Letter Board & Signage Manufacturer",
+    title: "Premium Letter Boards & Signage Across West Bengal & Jharkhand.",
     description:
-      "Premium letter boards and custom signage crafted to give your business a distinctive and professional identity.",
+      "Custom letter boards, sign boards and signage solutions designed, fabricated and installed for businesses across West Bengal, Jharkhand and India — from our studio in Kolkata.",
   },
   {
     image: "/hero/nursing.png",
@@ -105,7 +105,7 @@ export default function Hero() {
   return (
     <section
       className="hero-section"
-      aria-label="Premium Letter Board and Signage Solutions"
+      aria-label="Premium letter board and signage solutions across West Bengal, Jharkhand and India"
     >
       {/* =====================================
           BACKGROUND SLIDES

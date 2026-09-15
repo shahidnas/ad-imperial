@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import ContactForm from "@/src/components/ContactForm";
 import PageHeader from "@/src/components/PageHeader";
 import { routes } from "@/src/lib/navigation";
+import { breadcrumbSchema } from "@/src/lib/schema";
 import {
   hasAnyContactChannel,
   mailtoHref,
@@ -12,14 +13,16 @@ import {
 
 export const metadata: Metadata = {
   title: "Contact & Free Quote",
-  description: `Request a free quote for letter boards, 3D letters, LED & neon or custom signage from ${siteConfig.name} in ${siteConfig.area}.`,
+  description: `Request a free quote for letter boards, sign boards, LED letters or custom signage from ${siteConfig.name} — serving businesses across India from our studio in ${siteConfig.area}.`,
   alternates: { canonical: routes.contact },
   openGraph: {
     title: `Contact ${siteConfig.name}`,
-    description: `Request a free signage quote in ${siteConfig.area}.`,
+    description: `Request a free signage quote — serving businesses across India.`,
     url: routes.contact,
   },
 };
+
+const breadcrumbJsonLd = breadcrumbSchema([{ name: "Contact", path: routes.contact }]);
 
 type SearchParams = Promise<{ service?: string | string[] }>;
 
@@ -41,6 +44,11 @@ export default async function ContactPage({
 
   return (
     <main id="main-content" className="page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       <PageHeader
         eyebrow="Start Your Project"
         title="Your Brand Deserves To"

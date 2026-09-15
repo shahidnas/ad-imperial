@@ -5,36 +5,70 @@ import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
 import ServiceVideo from "@/src/components/ServiceVideo";
 import { services } from "@/src/data/services";
+import { getServiceContent } from "@/src/data/serviceContent";
 import { routes } from "@/src/lib/navigation";
+import { breadcrumbSchema } from "@/src/lib/schema";
 import { siteConfig } from "@/src/lib/site";
 
+const TITLE = "Signage Services — Letter Boards, Sign Boards & LED Signage";
+const DESCRIPTION =
+  "Explore AD Imperial's signage services — letter boards, sign boards, ACP, LED and neon signage, channel letters, acrylic and stainless steel letters, video walls and ACP cladding — for businesses across India.";
+
 export const metadata: Metadata = {
-  title: "Signage Services",
-  description:
-    "ACP letter boards, stainless steel letters, acrylic letters, LED & neon signage, 3D channel letters and fully custom business signage — designed, fabricated and installed.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: { canonical: routes.services },
   openGraph: {
-    title: `Signage Services | ${siteConfig.name}`,
-    description:
-      "Premium letter boards, illuminated signage and custom fabrication in " +
-      siteConfig.area,
+    title: `${TITLE} | ${siteConfig.name}`,
+    description: DESCRIPTION,
     url: routes.services,
   },
 };
 
+const pillars = [
+  getServiceContent("letter-board"),
+  getServiceContent("sign-board"),
+].filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+
+const breadcrumbJsonLd = breadcrumbSchema([{ name: "Services", path: routes.services }]);
+
 export default function ServicesPage() {
   return (
     <main id="main-content" className="page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       <PageHeader
         eyebrow="What We Create"
         title="Signage,"
         titleAccent="Crafted For Impact."
-        intro="A full range of services covering everything from flat fascia boards to fully illuminated, dimensional lettering. Every option below is designed, fabricated and installed by our own team."
+        intro="AD Imperial provides custom letter board, sign board and signage solutions for businesses, retail stores, offices and commercial properties across India. Explore each service below, or start with the two core categories: letter boards and sign boards."
         crumbs={[{ label: "Services" }]}
       />
 
       <section className="services-page">
         <div className="container">
+          {/* Pillar / category pages */}
+          <div className="services-pillars">
+            {pillars.map((pillar) => (
+              <Link
+                key={pillar.slug}
+                href={`/services/${pillar.slug}`}
+                className="services-pillar-card"
+              >
+                <span className="services-pillar-eyebrow">Core Category</span>
+                <h2>{pillar.h1}</h2>
+                <p>{pillar.intro}</p>
+                <span className="services-pillar-link">
+                  Explore {pillar.h1}
+                  <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                </span>
+              </Link>
+            ))}
+          </div>
+
           <ul className="services-page-index">
             {services.map((service) => (
               <li key={service.slug}>
@@ -74,24 +108,25 @@ export default function ServicesPage() {
                     {service.number} / {service.category}
                   </span>
                   <h2>{service.title}</h2>
-                  <p className="services-page-lead">{service.detail}</p>
+                  <p className="services-page-lead">{service.description}</p>
 
-                  <ul className="services-page-highlights">
-                    {service.highlights.map((highlight) => (
-                      <li key={highlight}>
-                        <i className="bi bi-check-lg" aria-hidden="true" />
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="services-page-actions">
+                    <Link
+                      href={`/services/${service.slug}`}
+                      className="services-page-link"
+                    >
+                      <span>View full details</span>
+                      <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                    </Link>
 
-                  <Link
-                    href={`${routes.contact}?service=${service.slug}`}
-                    className="services-page-link"
-                  >
-                    <span>Enquire about {service.title}</span>
-                    <i className="bi bi-arrow-up-right" aria-hidden="true" />
-                  </Link>
+                    <Link
+                      href={`${routes.contact}?service=${service.slug}`}
+                      className="services-page-link services-page-link-muted"
+                    >
+                      <span>Enquire about {service.title}</span>
+                      <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                    </Link>
+                  </div>
                 </div>
               </article>
             ))}

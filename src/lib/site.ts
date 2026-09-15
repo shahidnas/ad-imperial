@@ -11,7 +11,7 @@
  */
 
 const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://adimperial.in"
 ).replace(/\/$/, "");
 
 export interface SocialLink {
@@ -49,10 +49,13 @@ export const siteConfig = {
   /** Used for metadataBase, canonical URLs and the sitemap. */
   url: siteUrl,
   description:
-    "Premium letter boards, 3D letters, LED & neon signage and custom signage solutions in Kolkata. Designed, crafted and installed with precision.",
+    "AD Imperial designs, manufactures and installs premium letter boards, sign boards, LED letters, channel letters and custom signage for businesses across West Bengal and Jharkhand, and nationally across India, with a dedicated studio in Kolkata.",
   locale: "en_IN",
-  /** Primary service area — used in copy and structured data. */
+  /** Studio / registered location — used in the local NAP and structured data. */
   area: "Kolkata, West Bengal",
+  /** Honest, broader service coverage — used in national-intent copy and schema `areaServed`. Do not use this to imply physical branches. */
+  serviceCountry: "India",
+  tagline: "Letter Board & Signage Manufacturer",
 
   contact: {
     /** Display form of the primary mobile number. */

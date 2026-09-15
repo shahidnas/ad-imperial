@@ -4,6 +4,7 @@ import {
   siteConfig,
 } from "@/src/lib/site";
 import { services } from "@/src/data/services";
+import { serviceContent } from "@/src/data/serviceContent";
 
 /**
  * LocalBusiness structured data. Only emits contact fields that are actually
@@ -20,11 +21,37 @@ export default function StructuredData() {
     url: siteConfig.url,
     image: absoluteUrl("/hero/bhikaram.jpeg"),
     logo: absoluteUrl("/brand/ad-imperial-logo.png"),
-    areaServed: siteConfig.area,
-    makesOffer: services.map((service) => ({
-      "@type": "Offer",
-      itemOffered: { "@type": "Service", name: service.title },
-    })),
+    // The physical studio/registered address is Kolkata (see `address`
+    // below) — genuinely true. `areaServed` separately and honestly
+    // reflects real service coverage: Kolkata city first, then West Bengal
+    // and Jharkhand as the primary service states, then India nationally.
+    // None of this claims a branch office outside Kolkata.
+    areaServed: [
+      { "@type": "City", name: siteConfig.area.split(",")[0] },
+      { "@type": "State", name: "West Bengal" },
+      { "@type": "State", name: "Jharkhand" },
+      { "@type": "Country", name: siteConfig.serviceCountry },
+    ],
+    makesOffer: [
+      ...serviceContent
+        .filter((entry) => entry.isPillar)
+        .map((entry) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: entry.h1,
+            url: absoluteUrl(`/services/${entry.slug}`),
+          },
+        })),
+      ...services.map((service) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: service.title,
+          url: absoluteUrl(`/services/${service.slug}`),
+        },
+      })),
+    ],
   };
 
   if (hasAnyContactChannel()) {
@@ -46,10 +73,24 @@ export default function StructuredData() {
     addressCountry: address.country,
   };
 
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    url: siteConfig.url,
+    inLanguage: "en-IN",
+  };
+
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
+      />
+    </>
   );
 }

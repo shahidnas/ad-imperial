@@ -4,15 +4,18 @@ import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
 import { companyStats } from "@/src/lib/constants";
 import { routes } from "@/src/lib/navigation";
+import { breadcrumbSchema } from "@/src/lib/schema";
 import { siteConfig } from "@/src/lib/site";
+
+const breadcrumbJsonLd = breadcrumbSchema([{ name: "About", path: routes.about }]);
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: `${siteConfig.name} designs, crafts and installs premium letter boards and signage in ${siteConfig.area}. Learn about our approach to materials, craftsmanship and finish.`,
+  description: `${siteConfig.name} designs, fabricates and installs premium letter boards and signage for businesses across India, from our studio in ${siteConfig.area}. Learn about our approach to materials, craftsmanship and finish.`,
   alternates: { canonical: routes.about },
   openGraph: {
     title: `About ${siteConfig.name}`,
-    description: `Premium signage designed, crafted and installed in ${siteConfig.area}.`,
+    description: `Premium letter boards and signage, designed and fabricated in ${siteConfig.area} for clients across India.`,
     url: routes.about,
   },
 };
@@ -43,11 +46,16 @@ const values = [
 export default function AboutPage() {
   return (
     <main id="main-content" className="page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       <PageHeader
         eyebrow="About AD Imperial"
         title="We Turn Ideas Into"
         titleAccent="Remarkable Signage."
-        intro={`Your sign is often the first thing people notice about your business. We create premium signage that makes that first impression unforgettable — across ${siteConfig.area} and beyond.`}
+        intro={`Your sign is often the first thing people notice about your business. We design, fabricate and install premium letter boards and signage for businesses across India, from our studio in ${siteConfig.area}.`}
         crumbs={[{ label: "About" }]}
       />
 
@@ -78,7 +86,7 @@ export default function AboutPage() {
                 businesses look established. From elegant stainless-steel letters
                 and acrylic signage to illuminated boards and 3D channel letters,
                 every project is designed and crafted to represent a brand with
-                confidence.
+                confidence — for clients across India, not just Kolkata.
               </p>
 
               <p>

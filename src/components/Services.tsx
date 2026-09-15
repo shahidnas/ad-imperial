@@ -22,8 +22,10 @@ export default function Services() {
 
           <div className="services-heading-right">
             <p>
-              Premium signage solutions designed to give your business a
-              distinctive presence and a lasting first impression.
+              Letter boards, sign boards and illuminated signage designed,
+              fabricated and installed for businesses across{" "}
+              <Link href={routes.locations}>West Bengal and Jharkhand</Link>,
+              and nationally across India.
             </p>
             <div className="services-heading-line" />
           </div>
