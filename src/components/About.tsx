@@ -49,8 +49,8 @@ export default function About() {
           <div className="about-image-wrapper">
             <div className="about-image-frame">
               <Image
-                src="/about/about.webp"
-                alt="Premium custom letter board signage"
+                src="/about/ad-imperial-illuminated-letter-board.webp"
+                alt="AD Imperial logo in illuminated gold dimensional letters on a dark wall"
                 fill
                 sizes="(max-width: 991px) 100vw, 50vw"
                 className="about-image"
@@ -120,7 +120,7 @@ export default function About() {
               confidence. AD Imperial provides custom letter board
               and signage solutions for businesses, retail stores,
               offices and commercial properties across{" "}
-              <Link href={routes.locations}>West Bengal and Jharkhand</Link>,
+              <Link href={routes.locations}>West Bengal, Jharkhand and Bihar</Link>,
               and nationally across India.
             </p>
 

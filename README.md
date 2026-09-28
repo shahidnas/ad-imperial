@@ -38,23 +38,53 @@ Never commit real credentials; `.env*` files are gitignored.
 ## Project structure
 
 ```
-app/                 Routes (/, /about, /services, /services/[slug], /locations,
-                     /locations/[slug], /gallery, /faq, /contact,
-                     /privacy-policy, /terms), sitemap.ts, robots.ts,
-                     not-found.tsx, api/contact/route.ts
-src/components/      Reusable UI (Header, Footer, ServiceCard, PortfolioCard,
-                     FaqAccordion, ContactForm, PageHeader, PageCta, …)
-src/data/            Content modules — services, serviceContent, locationContent,
-                     faq, clients, legal
-src/lib/             site.ts (config + contact), navigation.ts (routes/nav),
-                     mailer.ts (Nodemailer), rateLimit.ts, schema.ts (JSON-LD),
-                     serviceGallery.ts, constants.ts, utils.ts
+app/                 Routes: /, /about, /services, /services/[slug] (products,
+                     categories and industry pages), /locations,
+                     /locations/[state], /locations/[state]/[city], /guides,
+                     /guides/[slug], /gallery, /faq, /contact, legal pages,
+                     sitemap.ts, robots.ts, not-found.tsx, api/contact/route.ts
+src/components/      UI (Header, Footer, LocationDetail, IndustryDetail, JsonLd, …)
+src/data/            Content: services, serviceContent (product pages),
+                     industries, locations/ (one file per state), guides,
+                     projectImages (alt text for every real photo), faq, legal
+src/lib/             site.ts (business details), seo.ts (SEO config +
+                     buildMetadata), schema.ts (JSON-LD), serviceLinks.ts,
+                     navigation.ts, mailer.ts, rateLimit.ts, serviceGallery.ts
 public/              Imagery and video (all served locally)
 ```
 
 Content lives in `src/data/*` and site-wide config in `src/lib/*` — update those
 rather than editing components. The gallery is built automatically from the
-images in `public/services/` (see `src/lib/serviceGallery.ts`).
+images in `public/services/` (see `src/lib/serviceGallery.ts`); describe new
+photos in `src/data/projectImages.ts`.
+
+## SEO
+
+- Every page builds its metadata with `buildMetadata()` (`src/lib/seo.ts`):
+  title, description, canonical, Open Graph, Twitter and robots together.
+- One `LocalBusiness` (the Kolkata studio) is emitted site-wide; page-level
+  `Service`, `Article`, `BreadcrumbList`, `FAQPage` and `ImageGallery` schemas
+  reference it by `@id`. No ratings, prices or branch addresses are published.
+- **Adding a city:** add an entry in `src/data/locations/<state>.ts` and its
+  slug to the state's `citySlugs`. Routing, links, sitemap and schema follow
+  automatically. Only add cities the business genuinely serves, with content
+  specific to that city.
+- **Adding a guide:** add it to `src/data/guides.ts`; update `dateModified` on edits.
+- Old URLs (flat `/locations/<city>`, renamed images) permanently redirect —
+  see `next.config.ts`.
+- Vercel preview deployments are `noindex` and disallowed in robots.txt.
+- **Unconfirmed products:** slugs in `src/data/productStatus.ts` (currently glow
+  sign boards and brass/aluminium letters) are written but not published — no
+  route, sitemap entry, link or form option. Remove a slug once the business
+  confirms it offers that product.
+- **Canonical domain:** `https://adimperial.in`. In Vercel → Domains, make
+  `adimperial.in` the primary domain and redirect `www.adimperial.in` to it.
+
+## Icons
+
+Only the Bootstrap Icons the site uses are shipped (`src/styles/bootstrap-icons-subset.*`).
+After using a new `bi-*` icon, regenerate the subset with `npm run icons`
+(needs Python with `fonttools` and `brotli`).
 
 ## Contact form & email delivery
 

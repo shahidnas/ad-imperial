@@ -562,6 +562,21 @@ img {
   padding: 0;
 }
 
+/* All slide texts share one grid cell so the block keeps the height of the
+   longest slide — no layout shift when the slider advances. */
+.hero-content-stack {
+  display: grid;
+}
+
+.hero-content-stack > .hero-content-inner {
+  grid-area: 1 / 1;
+}
+
+.hero-content-inner-hidden {
+  visibility: hidden;
+  animation: none !important;
+}
+
 .hero-content-inner {
   width: 100%;
 
@@ -3693,6 +3708,7 @@ img {
   text-transform: uppercase;
 }
 
+.work-card-content h2,
 .work-card-content h3 {
   margin: 0;
   max-width: 430px;
@@ -3924,6 +3940,7 @@ img {
     bottom: 22px;
   }
 
+  .work-card-content h2,
   .work-card-content h3 {
     font-size: 27px;
   }
@@ -3968,6 +3985,7 @@ img {
     height: 360px;
   }
 
+  .work-card-content h2,
   .work-card-content h3 {
     font-size: 24px;
   }
@@ -8714,6 +8732,11 @@ img {
   margin-bottom: 70px;
 }
 
+/* Service pages without a photo yet: feature columns span the full width. */
+.service-detail-grid-full {
+  margin-bottom: 70px;
+}
+
 .service-detail-media {
   position: sticky;
   top: 110px;
@@ -9036,8 +9059,11 @@ img {
     gap: 36px;
   }
 
+  /* Drop the sticky behaviour but stay positioned: the media's `fill`
+     image/video is absolutely positioned and must stay inside this box. */
   .service-detail-media {
-    position: static;
+    position: relative;
+    top: auto;
   }
 
   .service-detail-process ol {

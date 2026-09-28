@@ -1,75 +1,70 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import JsonLd from "@/src/components/JsonLd";
 import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
-import {
-  getLocationContent,
-  stateLocationSlugs,
-} from "@/src/data/locationContent";
+import { citiesInState, cityPath, statePath, states } from "@/src/data/locations";
 import { routes } from "@/src/lib/navigation";
 import { breadcrumbSchema } from "@/src/lib/schema";
+import { buildMetadata } from "@/src/lib/seo";
 import { siteConfig } from "@/src/lib/site";
 
-const TITLE = "Locations We Serve — West Bengal & Jharkhand";
-const DESCRIPTION =
-  "AD Imperial designs, fabricates and installs letter boards, sign boards and signage for businesses across West Bengal and Jharkhand, and nationally across India, from our studio in Kolkata.";
-
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: routes.locations },
-  openGraph: {
-    title: `${TITLE} | ${siteConfig.name}`,
-    description: DESCRIPTION,
-    url: routes.locations,
-  },
-};
-
-const breadcrumbJsonLd = breadcrumbSchema([{ name: "Locations", path: routes.locations }]);
+export const metadata = buildMetadata({
+  title: "Service Areas: West Bengal, Jharkhand & Bihar",
+  description:
+    "AD Imperial makes and installs letter boards, sign boards and signage for businesses across West Bengal, Jharkhand and Bihar — from one studio in Kolkata.",
+  path: routes.locations,
+  keywords: [
+    "sign board manufacturer West Bengal",
+    "sign board manufacturer Jharkhand",
+    "sign board manufacturer Bihar",
+  ],
+});
 
 export default function LocationsPage() {
-  const states = stateLocationSlugs
-    .map((slug) => getLocationContent(slug))
-    .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
-
   return (
     <main id="main-content" className="page">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
+      <JsonLd data={breadcrumbSchema([{ name: "Locations", path: routes.locations }])} />
 
       <PageHeader
         eyebrow="Service Areas"
         title="Signage Across"
-        titleAccent="West Bengal & Jharkhand."
-        intro="AD Imperial is based in Kolkata and serves businesses across West Bengal and Jharkhand, with signage delivered nationally across India from the same studio."
+        titleAccent="West Bengal, Jharkhand & Bihar."
+        intro="AD Imperial is based in Kolkata and serves businesses across West Bengal, Jharkhand and Bihar, with signage delivered nationally across India from the same studio."
         crumbs={[{ label: "Locations" }]}
       />
 
       <section className="service-detail">
         <div className="container">
+          <div className="location-context">
+            <h2>How We Serve Businesses Outside Kolkata</h2>
+            <p>
+              {siteConfig.name} has one studio, at{" "}
+              {siteConfig.contact.address.lines.join(", ")}. Every sign is designed
+              and fabricated there. For projects in other cities we plan from the
+              photos, measurements and details you share (or a site visit where
+              needed), transport the finished signage by road, and install it on
+              site. We don&apos;t operate branch offices — the city pages below
+              describe the places we serve and what businesses there typically need.
+            </p>
+          </div>
+
           {states.map((state) => {
-            const cities = state.relatedLocationSlugs
-              .map((slug) => getLocationContent(slug))
-              .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+            const cities = citiesInState(state.slug);
 
             return (
               <div className="location-context" key={state.slug}>
-                <h2>{state.name}</h2>
+                <h2>
+                  <Link href={statePath(state.slug)}>{state.name}</Link>
+                </h2>
                 <p>{state.intro}</p>
 
                 <div className="related-services-grid">
-                  <Link href={`/locations/${state.slug}`} className="related-service-card">
+                  <Link href={statePath(state.slug)} className="related-service-card">
                     <span>{state.name} Overview</span>
                     <i className="bi bi-arrow-up-right" aria-hidden="true" />
                   </Link>
                   {cities.map((city) => (
-                    <Link
-                      key={city.slug}
-                      href={`/locations/${city.slug}`}
-                      className="related-service-card"
-                    >
+                    <Link key={city.slug} href={cityPath(city)} className="related-service-card">
                       <span>{city.name}</span>
                       <i className="bi bi-arrow-up-right" aria-hidden="true" />
                     </Link>
@@ -80,14 +75,15 @@ export default function LocationsPage() {
           })}
 
           <p className="location-gallery-note">
-            We also deliver signage nationally across India — explore our{" "}
-            <Link href={routes.services}>full range of services</Link>.
+            Don&apos;t see your city? We also deliver signage elsewhere in India —
+            explore our <Link href={routes.services}>full range of services</Link> or{" "}
+            <Link href={routes.contact}>send us your requirement</Link>.
           </p>
         </div>
       </section>
 
       <PageCta
-        title="Have a signage project in West Bengal or Jharkhand?"
+        title="Have a signage project in West Bengal, Jharkhand or Bihar?"
         text="Share your requirement and location — our team will get back with a clear quote."
       />
     </main>

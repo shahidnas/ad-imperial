@@ -1,3 +1,5 @@
+import { isPendingConfirmation } from "@/src/data/productStatus";
+
 export interface ServiceFaq {
   question: string;
   answer: string;
@@ -39,7 +41,7 @@ export const serviceContent: ServiceContentEntry[] = [
     isPillar: true,
     metaTitle: "Letter Board Manufacturer in India",
     metaDescription:
-      "AD Imperial is a letter board company that designs, fabricates and installs custom letter boards — ACP, acrylic, stainless steel and illuminated LED — for businesses across India, from our studio in Kolkata.",
+      "Custom letter boards in ACP, acrylic, stainless steel and illuminated LED — designed, fabricated and installed by AD Imperial from our Kolkata studio.",
     h1: "Letter Board",
     h1Accent: "Manufacturer in India.",
     typesLabel: "Letter Boards",
@@ -138,15 +140,15 @@ export const serviceContent: ServiceContentEntry[] = [
       },
     ],
     relatedSlugs: ["sign-board", "acp-sign-boards", "led-letters", "channel-letters"],
-    pillarImage: "/hero/bhikaram.jpeg",
-    pillarImageAlt: "Illuminated custom letter board signage above a shop entrance",
+    pillarImage: "/hero/bhikharam-chandmal-shop-sign-board.jpeg",
+    pillarImageAlt: "Yellow ACP shop sign board with red lettering on the Bhikharam Chandmal storefront",
   },
   {
     slug: "sign-board",
     isPillar: true,
     metaTitle: "Sign Board Manufacturer & Signage Company in India",
     metaDescription:
-      "AD Imperial manufactures and installs custom sign boards — ACP, LED, acrylic, stainless steel and channel-letter — for shops, corporate offices and commercial buildings across India.",
+      "Sign boards for shops, offices and commercial buildings — ACP, acrylic, LED and stainless steel — designed, fabricated and installed from our Kolkata studio.",
     h1: "Sign Board Manufacturer",
     h1Accent: "& Signage Company in India.",
     typesLabel: "Sign Boards",
@@ -239,8 +241,8 @@ export const serviceContent: ServiceContentEntry[] = [
       },
     ],
     relatedSlugs: ["letter-board", "acp-sign-boards", "led-neon-signage", "channel-letters"],
-    pillarImage: "/hero/kolkata.webp",
-    pillarImageAlt: "Commercial building signage and sign boards across a city street",
+    pillarImage: "/hero/i-love-kolkata-illuminated-letters.webp",
+    pillarImageAlt: "Illuminated 3D \"I love Kolkata\" letters reflected in water at night",
   },
   {
     slug: "acp-sign-boards",
@@ -720,11 +722,208 @@ export const serviceContent: ServiceContentEntry[] = [
     ],
     relatedSlugs: ["led-neon-signage", "channel-letters", "sign-board", "led-letters"],
   },
+  // ---------------------------------------------------------------------
+  // Products without a dedicated photo yet — their pages render without
+  // media until real project photos are added.
+  // ---------------------------------------------------------------------
+  {
+    slug: "glow-sign-board",
+    metaTitle: "Glow Sign Board Manufacturer — Backlit Shop Signs",
+    metaDescription:
+      "Backlit glow sign boards and light-box signs for shops, clinics and offices — designed, fabricated and installed by AD Imperial from our Kolkata studio.",
+    h1: "Glow Sign Boards",
+    intro:
+      "A glow sign board is a backlit box sign: a printed or cut face lit evenly from inside, so the whole board glows after dark. It's one of the most cost-effective ways to keep a shop name visible at night, and works well for smaller frontages, projecting signs and market shops.",
+    applications: [
+      "Shop and market frontages",
+      "Projecting (side-mounted) shop signs",
+      "Clinics, pharmacies and diagnostic centres",
+      "Coaching centres and offices",
+      "Restaurants and takeaway counters",
+    ],
+    materials: [
+      "Aluminium or MS frame with weatherproof housing",
+      "Backlit flex or translucent acrylic face",
+      "LED modules for even internal lighting",
+      "Outdoor-rated power supply and wiring",
+    ],
+    features: [
+      "Even illumination across the whole face",
+      "Single- or double-sided versions",
+      "Printed artwork in full colour",
+      "Face can be replaced if branding changes",
+    ],
+    benefits: [
+      "Keeps the shop visible after dark at a modest cost",
+      "Low running cost with LED lighting",
+      "Quick to fabricate and install",
+      "Easy to update — replace the face, keep the box",
+    ],
+    installation: [
+      "Size and artwork approval",
+      "Frame and housing fabrication",
+      "LED fitting and face mounting",
+      "Wall or bracket mounting on site",
+      "Wiring and illumination check",
+    ],
+    usageContext:
+      "Glow sign boards are mostly used outdoors on shopfronts, either flat against the fascia or projecting from the wall so they can be seen by people walking along the street. Double-sided projecting boards are especially effective in busy markets.",
+    faqs: [
+      {
+        question: "What is the difference between a glow sign board and an LED letter sign?",
+        answer:
+          "A glow sign board lights the whole face of a box evenly, while LED letters light only the individual letters. Glow signs are usually more economical; LED or channel letters give a more premium, dimensional look.",
+      },
+      {
+        question: "Can the printed face be changed later?",
+        answer:
+          "Yes. The face can be replaced if your branding, phone number or services change, while the frame and LEDs are reused.",
+      },
+      {
+        question: "Can you make a double-sided projecting glow sign?",
+        answer:
+          "Yes — double-sided boards mounted on a bracket so they're visible from both directions along the street.",
+      },
+    ],
+    relatedSlugs: ["acp-sign-boards", "led-letters", "sign-board", "acrylic-sign-board"],
+  },
+  {
+    slug: "acrylic-sign-board",
+    metaTitle: "Acrylic Sign Board Manufacturer — Custom Acrylic Signs",
+    metaDescription:
+      "Clear, coloured and frosted acrylic sign boards and name plates for offices, clinics, shops and reception areas, made at AD Imperial's Kolkata studio.",
+    h1: "Acrylic Sign Boards",
+    intro:
+      "Acrylic sign boards use cut, printed or layered acrylic sheet to create clean, modern signage — from office name plates and reception boards to clinic and department signs. They can be clear, coloured or frosted, and can be lit from the edge or from behind.",
+    applications: [
+      "Office and cabin name plates",
+      "Reception and lobby boards",
+      "Clinic, hospital and department signage",
+      "Shop interiors and display signage",
+      "Institutional and directional signs",
+    ],
+    materials: [
+      "Clear, coloured or frosted acrylic sheet",
+      "Vinyl or UV-printed graphics",
+      "Stand-off fittings and spacers",
+      "Optional LED edge or back lighting",
+    ],
+    features: [
+      "Clean, glossy finish",
+      "Layered and raised-letter designs",
+      "Precision-cut shapes and logos",
+      "Optional edge-lit or backlit glow",
+    ],
+    benefits: [
+      "A modern, professional look at a moderate budget",
+      "Lightweight and easy to mount",
+      "Smooth, wipe-clean surface",
+      "Works indoors and in covered outdoor areas",
+    ],
+    installation: [
+      "Layout and size approval",
+      "Cutting, printing and layering",
+      "Fitting stand-offs or mounting hardware",
+      "On-site wall mounting",
+      "Final alignment check",
+    ],
+    usageContext:
+      "Acrylic sign boards are at their best indoors and in covered entrances — reception areas, offices, clinics and shop interiors. For fully exposed outdoor fascias, ACP boards or acrylic letters mounted on ACP are usually the more durable choice.",
+    faqs: [
+      {
+        question: "Is acrylic suitable for outdoor signs?",
+        answer:
+          "Acrylic can be used outdoors, especially in covered areas, but for large, fully exposed fascias we usually recommend ACP boards or acrylic letters mounted on an ACP base for better long-term durability.",
+      },
+      {
+        question: "What's the difference between an acrylic sign board and gold acrylic letters?",
+        answer:
+          "An acrylic sign board is a panel — clear, coloured or frosted — carrying your graphics. Gold acrylic letters are individually cut, mirror-finish letters mounted directly on a wall or fascia for a premium look.",
+      },
+      {
+        question: "Can acrylic signs be illuminated?",
+        answer:
+          "Yes — edge-lit or backlit acrylic gives a soft glow that suits receptions, clinics and shop interiors.",
+      },
+    ],
+    relatedSlugs: ["gold-acrylic-letters", "glow-sign-board", "letter-board", "acp-sign-boards"],
+  },
+  {
+    slug: "metal-letters",
+    metaTitle: "Brass & Aluminium Letters — Custom Metal Letter Signs",
+    metaDescription:
+      "Custom brass and aluminium letters for building names, reception walls and premium shopfronts — fabricated and installed by AD Imperial from our Kolkata studio.",
+    h1: "Brass & Aluminium Letters",
+    intro:
+      "Brass and aluminium letters give a sign the weight and permanence of real metal. Brass offers a warm, classic gold tone for heritage-style and premium brands; aluminium is lighter, corrosion-resistant and takes painted or brushed finishes for a modern look.",
+    applications: [
+      "Building and property names",
+      "Corporate reception walls",
+      "Hotels and premium showrooms",
+      "Institutions and heritage buildings",
+      "Memorial and plaque lettering",
+    ],
+    materials: [
+      "Brass sheet or cut brass letters",
+      "Aluminium sheet or fabricated aluminium letters",
+      "Protective lacquer or powder-coat finishes",
+      "Concealed studs and stand-off fixings",
+    ],
+    features: [
+      "Brushed, polished or painted finishes",
+      "Flat-cut or fabricated (hollow) letters",
+      "Optional halo (back) lighting",
+      "Custom fonts and logo shapes",
+    ],
+    benefits: [
+      "A premium, permanent look",
+      "Long service life with basic care",
+      "Aluminium resists corrosion and stays light",
+      "Brass develops a classic, distinctive character",
+    ],
+    installation: [
+      "Font, size and finish approval",
+      "Cutting or fabrication of letters",
+      "Finishing and protective coating",
+      "Template-guided wall fixing",
+      "Final alignment and cleaning",
+    ],
+    usageContext:
+      "Metal letters work indoors on reception walls and outdoors on building fronts. Outdoors, aluminium is the lower-maintenance choice; brass is chosen for its colour and character and benefits from a protective lacquer and periodic polishing.",
+    maintenance: [
+      "Wipe regularly with a soft, dry cloth",
+      "Polish brass periodically if an unlacquered finish is chosen",
+      "Avoid abrasive cleaners on painted aluminium",
+    ],
+    faqs: [
+      {
+        question: "Brass or aluminium — which should I choose?",
+        answer:
+          "Choose brass for a warm, classic gold tone and a heritage or luxury feel; choose aluminium for a lighter, low-maintenance letter that can be painted or brushed in almost any finish.",
+      },
+      {
+        question: "Will brass letters tarnish outdoors?",
+        answer:
+          "Unprotected brass naturally darkens over time. A clear protective lacquer slows this down considerably, and occasional polishing restores the shine.",
+      },
+      {
+        question: "How are metal letters different from stainless steel letters?",
+        answer:
+          "They're similar in construction; the difference is the metal and finish. Stainless steel gives a silver or gold mirror or brushed finish, brass gives a natural gold tone, and aluminium is lighter and easy to paint.",
+      },
+    ],
+    relatedSlugs: ["stainless-steel-letters", "gold-acrylic-letters", "letter-board", "channel-letters"],
+  },
 ];
 
 export function getServiceContent(slug: string): ServiceContentEntry | undefined {
   return serviceContent.find((entry) => entry.slug === slug);
 }
 
-/** All slugs that should be statically generated under /services/[slug]. */
-export const allServiceSlugs = serviceContent.map((entry) => entry.slug);
+/**
+ * All slugs that should be statically generated under /services/[slug].
+ * Products awaiting owner confirmation are excluded (see productStatus.ts).
+ */
+export const allServiceSlugs = serviceContent
+  .filter((entry) => !isPendingConfirmation(entry.slug))
+  .map((entry) => entry.slug);

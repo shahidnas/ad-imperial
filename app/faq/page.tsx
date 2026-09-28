@@ -1,26 +1,18 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import FaqAccordion from "@/src/components/FaqAccordion";
 import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
 import { faqs } from "@/src/data/faq";
 import { routes } from "@/src/lib/navigation";
+import { buildMetadata } from "@/src/lib/seo";
 import { breadcrumbSchema, faqSchema } from "@/src/lib/schema";
-import { siteConfig } from "@/src/lib/site";
 
-export const metadata: Metadata = {
-  title: "FAQ",
+export const metadata = buildMetadata({
+  title: "Signage FAQ — Sign Boards, Letter Boards & Installation",
   description:
-    "Common questions about letter boards, sign boards, LED signage, materials, installation, timelines, quotations and pan-India service availability — answered.",
-  alternates: { canonical: routes.faq },
-  openGraph: {
-    title: `FAQ | ${siteConfig.name}`,
-    description:
-      "Everything to know before starting a signage project with " +
-      siteConfig.name,
-    url: routes.faq,
-  },
-};
+    "Common questions about letter boards, sign boards, LED signage, materials, installation, timelines, quotations and service areas — answered by AD Imperial.",
+  path: routes.faq,
+});
 
 const faqJsonLd = faqSchema(faqs);
 const breadcrumbJsonLd = breadcrumbSchema([{ name: "FAQ", path: routes.faq }]);

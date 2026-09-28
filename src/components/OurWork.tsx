@@ -34,14 +34,13 @@ export default function OurWork() {
       <div className="container">
         {featured.length > 0 ? (
           <div className="work-grid">
-            {featured.map((item, index) => (
+            {featured.map((item) => (
               <PortfolioCard
                 key={item.key}
                 item={item}
                 respectSize={false}
                 fit="contain"
                 sizes="(max-width: 767px) 100vw, 50vw"
-                priority={index < 2}
               />
             ))}
           </div>

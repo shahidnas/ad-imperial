@@ -2,16 +2,13 @@ import Link from "next/link";
 import BrandLogo from "@/src/components/BrandLogo";
 import { footerNav, legalNav, routes } from "@/src/lib/navigation";
 import { services } from "@/src/data/services";
-import { getLocationContent, stateLocationSlugs } from "@/src/data/locationContent";
+import { statePath, states } from "@/src/data/locations";
 import { mailtoHref, siteConfig, telHref } from "@/src/lib/site";
 
 export default function Footer() {
   const tel = telHref();
   const mail = mailtoHref();
   const { address, gstin } = siteConfig.contact;
-  const states = stateLocationSlugs
-    .map((slug) => getLocationContent(slug))
-    .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
 
   return (
     <footer className="luxury-footer">
@@ -95,7 +92,7 @@ export default function Footer() {
               <div className="footer-links">
                 <Link href={routes.locations}>All Locations</Link>
                 {states.map((state) => (
-                  <Link key={state.slug} href={`/locations/${state.slug}`}>
+                  <Link key={state.slug} href={statePath(state.slug)}>
                     {state.name}
                   </Link>
                 ))}

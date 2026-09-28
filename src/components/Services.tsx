@@ -22,9 +22,14 @@ export default function Services() {
 
           <div className="services-heading-right">
             <p>
-              Letter boards, sign boards and illuminated signage designed,
-              fabricated and installed for businesses across{" "}
-              <Link href={routes.locations}>West Bengal and Jharkhand</Link>,
+              <Link href="/services/letter-board">Letter boards</Link>,{" "}
+              <Link href="/services/sign-board">sign boards</Link> and illuminated
+              signage designed, fabricated and installed for{" "}
+              <Link href="/services/shop-sign-board">shops</Link>,{" "}
+              <Link href="/services/hospitality-signage">restaurants</Link>,{" "}
+              <Link href="/services/hospital-signage">hospitals</Link> and{" "}
+              <Link href="/services/office-signage">offices</Link> across{" "}
+              <Link href={routes.locations}>West Bengal, Jharkhand and Bihar</Link>,
               and nationally across India.
             </p>
             <div className="services-heading-line" />
@@ -34,11 +39,10 @@ export default function Services() {
 
       <div className="container">
         <div className="services-list">
-          {services.map((service, index) => (
+          {services.map((service) => (
             <ServiceCard
               key={service.slug}
               service={service}
-              index={index}
             />
           ))}
         </div>

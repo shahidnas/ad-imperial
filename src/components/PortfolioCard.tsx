@@ -20,7 +20,9 @@ interface PortfolioCardProps {
    */
   fit?: "cover" | "contain";
   sizes?: string;
-  priority?: boolean;
+  preload?: boolean;
+  /** Heading level for the card title — h2 when cards sit directly under the page h1. */
+  headingLevel?: "h2" | "h3";
 }
 
 export default function PortfolioCard({
@@ -28,7 +30,8 @@ export default function PortfolioCard({
   respectSize = true,
   fit = "cover",
   sizes = "(max-width: 767px) 100vw, 50vw",
-  priority = false,
+  preload = false,
+  headingLevel: Heading = "h3",
 }: PortfolioCardProps) {
   const sizeClass =
     respectSize && item.size === "large" ? "work-card-large" : "work-card-small";
@@ -44,7 +47,7 @@ export default function PortfolioCard({
           fill
           sizes={sizes}
           className="work-image"
-          priority={priority}
+          preload={preload}
         />
         <div className="work-overlay" />
 
@@ -53,7 +56,7 @@ export default function PortfolioCard({
         <div className="work-card-content">
           <div>
             <span className="work-card-label">AD IMPERIAL</span>
-            <h3>{item.title}</h3>
+            <Heading>{item.title}</Heading>
           </div>
 
           <div className="work-card-arrow" aria-hidden="true">

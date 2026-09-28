@@ -49,7 +49,7 @@ export const siteConfig = {
   /** Used for metadataBase, canonical URLs and the sitemap. */
   url: siteUrl,
   description:
-    "AD Imperial designs, manufactures and installs premium letter boards, sign boards, LED letters, channel letters and custom signage for businesses across West Bengal and Jharkhand, and nationally across India, with a dedicated studio in Kolkata.",
+    "AD Imperial designs, manufactures and installs premium letter boards, sign boards, LED letters, channel letters and custom signage for businesses across West Bengal, Jharkhand and Bihar, and nationally across India, with a dedicated studio in Kolkata.",
   locale: "en_IN",
   /** Studio / registered location — used in the local NAP and structured data. */
   area: "Kolkata, West Bengal",

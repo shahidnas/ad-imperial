@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { getProjectImage } from "@/src/data/projectImages";
 
 /**
  * Builds the gallery from every image in `public/services/`.
@@ -13,7 +14,7 @@ import path from "node:path";
 export interface GalleryItem {
   /** Stable key / filename. */
   key: string;
-  /** Public path, e.g. "/services/neon-sign-1.jpeg". */
+  /** Public path, e.g. "/services/neon-sign-cafe-welcome.jpeg". */
   image: string;
   category: string;
   title: string;
@@ -130,12 +131,16 @@ export function getServiceGallery(): {
     const copy = CATEGORY_COPY[category] ?? CATEGORY_COPY[FALLBACK_CATEGORY];
     const n = seen[category];
     const suffix = totals[category] > 1 ? ` ${String(n).padStart(2, "0")}` : "";
+    const image = `/services/${file}`;
+    // Prefer the photo's own description; fall back to category copy for
+    // newly dropped-in files that haven't been described yet.
+    const described = getProjectImage(image);
     return {
       key: file,
-      image: `/services/${file}`,
+      image,
       category,
-      title: `${copy.title}${suffix}`,
-      alt: `${copy.alt} — ${category} project ${n}`,
+      title: described?.title ?? `${copy.title}${suffix}`,
+      alt: described?.alt ?? `${copy.alt} — ${category} project ${n}`,
     };
   });
 

@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import ContactForm from "@/src/components/ContactForm";
 import PageHeader from "@/src/components/PageHeader";
 import { routes } from "@/src/lib/navigation";
+import { buildMetadata } from "@/src/lib/seo";
 import { breadcrumbSchema } from "@/src/lib/schema";
 import {
   hasAnyContactChannel,
@@ -11,16 +11,11 @@ import {
   whatsappHref,
 } from "@/src/lib/site";
 
-export const metadata: Metadata = {
-  title: "Contact & Free Quote",
-  description: `Request a free quote for letter boards, sign boards, LED letters or custom signage from ${siteConfig.name} — serving businesses across India from our studio in ${siteConfig.area}.`,
-  alternates: { canonical: routes.contact },
-  openGraph: {
-    title: `Contact ${siteConfig.name}`,
-    description: `Request a free signage quote — serving businesses across India.`,
-    url: routes.contact,
-  },
-};
+export const metadata = buildMetadata({
+  title: "Contact & Free Signage Quote",
+  description: `Request a free quote for letter boards, sign boards or LED signage from ${siteConfig.name}'s Kolkata studio — serving West Bengal, Jharkhand and Bihar.`,
+  path: routes.contact,
+});
 
 const breadcrumbJsonLd = breadcrumbSchema([{ name: "Contact", path: routes.contact }]);
 

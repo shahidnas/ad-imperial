@@ -6,6 +6,7 @@ export const routes = {
   services: "/services",
   locations: "/locations",
   gallery: "/gallery",
+  guides: "/guides",
   faq: "/faq",
   contact: "/contact",
   privacyPolicy: "/privacy-policy",
@@ -36,6 +37,7 @@ export const footerNav: NavItem[] = [
   { label: "Services", href: routes.services },
   { label: "Locations", href: routes.locations },
   { label: "Gallery", href: routes.gallery },
+  { label: "Guides", href: routes.guides },
   { label: "FAQ", href: routes.faq },
   { label: "Contact", href: routes.contact },
 ];
@@ -52,6 +54,7 @@ export const publicRoutes: Route[] = [
   routes.services,
   routes.locations,
   routes.gallery,
+  routes.guides,
   routes.faq,
   routes.contact,
   routes.privacyPolicy,

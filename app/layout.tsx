@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { DM_Sans, Manrope } from "next/font/google";
-import "bootstrap-icons/font/bootstrap-icons.css";
+import "@/src/styles/bootstrap-icons-subset.css";
 import "./globals.css";
 import Header from "@/src/components/Header";
 import Footer from "@/src/components/Footer";
 import WhatsAppButton from "@/src/components/WhatsAppButton";
+import StructuredData from "@/src/components/StructuredData";
+import { buildMetadata, seoConfig } from "@/src/lib/seo";
 import { siteConfig } from "@/src/lib/site";
 
 // Self-hosted, preloaded via next/font — replaces the render-blocking
@@ -25,9 +27,22 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-const SITE_TITLE = "Letter Board & Sign Board Manufacturer in West Bengal & Jharkhand";
+const SITE_TITLE = "Letter Board & Sign Board Manufacturer in Kolkata";
 const SITE_DESCRIPTION =
-  "AD Imperial designs, manufactures and installs custom letter boards, sign boards, LED letters, channel letters, acrylic and ACP signage for businesses across West Bengal and Jharkhand, and nationally across India — from our studio in Kolkata.";
+  "Custom letter boards, sign boards, LED letters and ACP signage — designed, made and installed by AD Imperial in Kolkata for West Bengal, Jharkhand and Bihar.";
+
+/**
+ * Site-wide defaults. Every page overrides title/description/canonical/
+ * openGraph/twitter through `buildMetadata()` (src/lib/seo.ts). There is
+ * deliberately no canonical here: a layout-level canonical would be
+ * inherited by any page that forgot its own and point it at the homepage.
+ */
+const defaults = buildMetadata({
+  title: `${SITE_TITLE} | ${siteConfig.name}`,
+  absoluteTitle: true,
+  description: SITE_DESCRIPTION,
+  path: "/",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -37,81 +52,14 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   applicationName: siteConfig.name,
-  keywords: [
-    "letter board manufacturer West Bengal",
-    "sign board manufacturer West Bengal",
-    "signage company West Bengal",
-    "letter board manufacturer Jharkhand",
-    "sign board manufacturer Jharkhand",
-    "signage company Jharkhand",
-    "letter board Kolkata",
-    "sign board Kolkata",
-    "letter board Durgapur",
-    "sign board Durgapur",
-    "letter board Asansol",
-    "sign board Asansol",
-    "letter board Ranchi",
-    "sign board Ranchi",
-    "letter board Jamshedpur",
-    "sign board Jamshedpur",
-    "letter board manufacturer India",
-    "sign board manufacturer India",
-    "signage company India",
-    "custom signage India",
-    "ACP sign board",
-    "LED sign board",
-    "LED letters",
-    "channel letters",
-    "acrylic letters",
-    "gold acrylic letters",
-    "stainless steel letters",
-    "neon signage",
-    "commercial signage",
-    "corporate signage",
-    "outdoor signage",
-    "shop sign board",
-    "video wall",
-    "ACP cladding",
-  ],
-  authors: [{ name: siteConfig.name }],
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    locale: siteConfig.locale,
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    title: `${SITE_TITLE} | ${siteConfig.name}`,
-    description: SITE_DESCRIPTION,
-    images: [
-      {
-        url: "/hero/bhikaram.jpeg",
-        width: 1200,
-        height: 630,
-        alt: `Custom letter board and signage installation by ${siteConfig.name}`,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${SITE_TITLE} | ${siteConfig.name}`,
-    description: SITE_DESCRIPTION,
-    images: ["/hero/bhikaram.jpeg"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  openGraph: defaults.openGraph,
+  twitter: defaults.twitter,
+  robots: defaults.robots,
   category: "business",
+  formatDetection: { telephone: false, email: false, address: false },
 };
 
 export default function RootLayout({
@@ -120,8 +68,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${dmSans.variable}`}>
+    <html lang={seoConfig.language} className={`${manrope.variable} ${dmSans.variable}`}>
       <body>
+        <StructuredData />
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>

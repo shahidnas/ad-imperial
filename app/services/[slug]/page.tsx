@@ -3,17 +3,43 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import FaqAccordion from "@/src/components/FaqAccordion";
+import IndustryDetail from "@/src/components/IndustryDetail";
+import JsonLd from "@/src/components/JsonLd";
 import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
 import ServiceVideo from "@/src/components/ServiceVideo";
+import { allIndustrySlugs, getIndustry } from "@/src/data/industries";
+import { cities, cityPath, statePath, states } from "@/src/data/locations";
+import { getProjectImage } from "@/src/data/projectImages";
 import { getService } from "@/src/data/services";
 import { allServiceSlugs, getServiceContent } from "@/src/data/serviceContent";
 import { routes } from "@/src/lib/navigation";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "@/src/lib/schema";
+import { buildMetadata } from "@/src/lib/seo";
+import { getServiceLinks } from "@/src/lib/serviceLinks";
 import { siteConfig, whatsappHref } from "@/src/lib/site";
 
+// Products, pillar categories and industry pages share this route; any
+// other slug is a genuine 404.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return allServiceSlugs.map((slug) => ({ slug }));
+  return [...allServiceSlugs, ...allIndustrySlugs].map((slug) => ({ slug }));
+}
+
+/** Cities linked from every service page — one or two per state. */
+const FEATURED_CITY_SLUGS = ["kolkata", "howrah", "asansol", "ranchi", "jamshedpur", "patna"];
+
+function imageFor(slug: string) {
+  const content = getServiceContent(slug);
+  const product = getService(slug);
+  const src = product?.image ?? content?.pillarImage;
+  if (!src) return undefined;
+  const described = getProjectImage(src);
+  return {
+    src,
+    alt: described?.alt ?? product?.imageAlt ?? content?.pillarImageAlt ?? content?.h1 ?? "",
+  };
 }
 
 export async function generateMetadata({
@@ -22,21 +48,30 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const path = `/services/${slug}`;
+
+  const industry = getIndustry(slug);
+  if (industry) {
+    const lead = getProjectImage(industry.projectImages[0] ?? "");
+    return buildMetadata({
+      title: industry.metaTitle,
+      description: industry.metaDescription,
+      path,
+      keywords: industry.keywords,
+      image: lead ? { url: lead.src, alt: lead.alt } : undefined,
+    });
+  }
+
   const content = getServiceContent(slug);
   if (!content) return {};
 
-  const path = `/services/${slug}`;
-
-  return {
+  const image = imageFor(slug);
+  return buildMetadata({
     title: content.metaTitle,
     description: content.metaDescription,
-    alternates: { canonical: path },
-    openGraph: {
-      title: content.metaTitle,
-      description: content.metaDescription,
-      url: path,
-    },
-  };
+    path,
+    image: image ? { url: image.src, alt: image.alt } : undefined,
+  });
 }
 
 export default async function ServiceDetailPage({
@@ -45,19 +80,27 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+
+  const industry = getIndustry(slug);
+  if (industry) return <IndustryDetail industry={industry} />;
+
   const content = getServiceContent(slug);
   if (!content) notFound();
 
-  // Present for the 8 physical services; undefined for the two pillar pages.
+  // Present for the 8 physical services; undefined for pillar pages and
+  // products that don't have a photo yet.
   const product = getService(slug);
-  const image = product?.image ?? content.pillarImage;
-  const imageAlt = product?.imageAlt ?? content.pillarImageAlt ?? content.h1;
+  const media = imageFor(slug);
+  const image = media?.src;
+  const imageAlt = media?.alt ?? content.h1;
   const video = product?.video;
   const videoAlt = product?.videoAlt;
+  const hasMedia = Boolean(video || image);
 
-  const related = content.relatedSlugs
-    .map((relatedSlug) => getServiceContent(relatedSlug))
-    .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+  const related = getServiceLinks(content.relatedSlugs);
+  const featuredCities = FEATURED_CITY_SLUGS.map((citySlug) =>
+    cities.find((city) => city.slug === citySlug),
+  ).filter((city): city is NonNullable<typeof city> => Boolean(city));
 
   const whatsapp = whatsappHref(
     `Hi ${siteConfig.name}, I'd like a quote for ${content.h1}.`,
@@ -72,35 +115,24 @@ export default async function ServiceDetailPage({
 
   return (
     <main id="main-content" className="page">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbSchema([
-              { name: "Services", path: routes.services },
-              { name: content.h1, path: `/services/${slug}` },
-            ]),
-          ),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            serviceSchema({
-              name: content.h1,
-              description: content.metaDescription,
-              path: `/services/${slug}`,
-              image,
-              providerName: siteConfig.name,
-              areaCountry: siteConfig.serviceCountry,
-            }),
-          ),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(content.faqs)) }}
+      <JsonLd
+        data={[
+          breadcrumbSchema([
+            { name: "Services", path: routes.services },
+            { name: content.h1, path: `/services/${slug}` },
+          ]),
+          serviceSchema({
+            name: content.h1,
+            description: content.metaDescription,
+            path: `/services/${slug}`,
+            image,
+            areaServed: [
+              ...states.map((state) => ({ type: "State" as const, name: state.name })),
+              { type: "Country" as const, name: siteConfig.serviceCountry },
+            ],
+          }),
+          faqSchema(content.faqs),
+        ]}
       />
 
       <PageHeader
@@ -116,7 +148,8 @@ export default async function ServiceDetailPage({
 
       <section className="service-detail">
         <div className="container">
-          <div className="service-detail-grid">
+          <div className={hasMedia ? "service-detail-grid" : "service-detail-grid-full"}>
+            {hasMedia && (
             <div className="services-page-media service-detail-media">
               {video ? (
                 <ServiceVideo
@@ -131,10 +164,11 @@ export default async function ServiceDetailPage({
                   fill
                   sizes="(max-width: 900px) 100vw, 45vw"
                   className="services-page-image"
-                  priority
+                  preload
                 />
               ) : null}
             </div>
+            )}
 
             <div className="service-detail-columns">
               {columns.map((column) => (
@@ -197,10 +231,21 @@ export default async function ServiceDetailPage({
           )}
 
           <p className="service-detail-region-note">
-            Available across{" "}
-            <Link href="/locations/west-bengal">West Bengal</Link> and{" "}
-            <Link href="/locations/jharkhand">Jharkhand</Link>, and nationally
-            across India.
+            Made at our Kolkata studio and installed across{" "}
+            {states.map((state, index) => (
+              <span key={state.slug}>
+                {index > 0 && (index === states.length - 1 ? " and " : ", ")}
+                <Link href={statePath(state.slug)}>{state.name}</Link>
+              </span>
+            ))}
+            , including{" "}
+            {featuredCities.map((city, index) => (
+              <span key={city.slug}>
+                {index > 0 && (index === featuredCities.length - 1 ? " and " : ", ")}
+                <Link href={cityPath(city)}>{city.name}</Link>
+              </span>
+            ))}
+            {" "}— and nationally across India.
           </p>
 
           <div className="service-detail-ctas">
@@ -245,10 +290,10 @@ export default async function ServiceDetailPage({
               {related.map((entry) => (
                 <Link
                   key={entry.slug}
-                  href={`/services/${entry.slug}`}
+                  href={entry.href}
                   className="related-service-card"
                 >
-                  <span>{entry.h1}</span>
+                  <span>{entry.label}</span>
                   <i className="bi bi-arrow-up-right" aria-hidden="true" />
                 </Link>
               ))}
@@ -270,7 +315,7 @@ export default async function ServiceDetailPage({
       </section>
 
       <PageCta
-        title={`Ready to start your ${content.h1.toLowerCase()} project?`}
+        title={`Get a Quote for ${getServiceLinks([slug])[0]?.label ?? content.h1}`}
         text="Share your requirement, location and any reference photos — our team will get back with a clear quote."
       />
     </main>

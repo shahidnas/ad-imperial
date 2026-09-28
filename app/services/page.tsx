@@ -1,29 +1,29 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
 import ServiceVideo from "@/src/components/ServiceVideo";
 import { services } from "@/src/data/services";
+import JsonLd from "@/src/components/JsonLd";
+import { industries } from "@/src/data/industries";
 import { getServiceContent } from "@/src/data/serviceContent";
 import { routes } from "@/src/lib/navigation";
 import { breadcrumbSchema } from "@/src/lib/schema";
-import { siteConfig } from "@/src/lib/site";
+import { buildMetadata } from "@/src/lib/seo";
+import { getServiceLinks } from "@/src/lib/serviceLinks";
 
-const TITLE = "Signage Services — Letter Boards, Sign Boards & LED Signage";
+const TITLE = "Signage Services: Sign Boards, Letter Boards & LED";
 const DESCRIPTION =
-  "Explore AD Imperial's signage services — letter boards, sign boards, ACP, LED and neon signage, channel letters, acrylic and stainless steel letters, video walls and ACP cladding — for businesses across India.";
+  "Letter boards, sign boards, ACP, LED, neon and back-lit signage, 3D letters, video walls and ACP cladding — designed and made by AD Imperial in Kolkata.";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: routes.services },
-  openGraph: {
-    title: `${TITLE} | ${siteConfig.name}`,
-    description: DESCRIPTION,
-    url: routes.services,
-  },
-};
+  path: routes.services,
+});
+
+/** Products with their own page but no card/photo in the list above yet. */
+const moreProducts = getServiceLinks(["glow-sign-board", "acrylic-sign-board", "metal-letters"]);
 
 const pillars = [
   getServiceContent("letter-board"),
@@ -35,10 +35,7 @@ const breadcrumbJsonLd = breadcrumbSchema([{ name: "Services", path: routes.serv
 export default function ServicesPage() {
   return (
     <main id="main-content" className="page">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
+      <JsonLd data={breadcrumbJsonLd} />
 
       <PageHeader
         eyebrow="What We Create"
@@ -78,7 +75,7 @@ export default function ServicesPage() {
           </ul>
 
           <div className="services-page-list">
-            {services.map((service, index) => (
+            {services.map((service) => (
               <article
                 key={service.slug}
                 id={service.slug}
@@ -98,7 +95,6 @@ export default function ServicesPage() {
                       fill
                       sizes="(max-width: 900px) 100vw, 45vw"
                       className="services-page-image"
-                      priority={index === 0}
                     />
                   ) : null}
                 </div>
@@ -130,6 +126,34 @@ export default function ServicesPage() {
                 </div>
               </article>
             ))}
+          </div>
+
+          <div className="service-detail-types">
+            <h2>More Signage We Make</h2>
+            <div className="related-services-grid">
+              {moreProducts.map((link) => (
+                <Link key={link.slug} href={link.href} className="related-service-card">
+                  <span>{link.label}</span>
+                  <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="service-detail-types">
+            <h2>Signage by Industry</h2>
+            <div className="related-services-grid">
+              {industries.map((industry) => (
+                <Link
+                  key={industry.slug}
+                  href={`/services/${industry.slug}`}
+                  className="related-service-card"
+                >
+                  <span>{industry.name}</span>
+                  <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>

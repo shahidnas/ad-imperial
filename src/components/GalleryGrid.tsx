@@ -55,14 +55,14 @@ export default function GalleryGrid({ items, categories }: GalleryGridProps) {
 
       {filtered.length > 0 ? (
         <div className="gallery-grid">
-          {filtered.map((item, index) => (
+          {filtered.map((item) => (
             <PortfolioCard
+              headingLevel="h2"
               key={item.key}
               item={item}
               respectSize={false}
               fit="contain"
               sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"
-              priority={index < 3}
             />
           ))}
         </div>

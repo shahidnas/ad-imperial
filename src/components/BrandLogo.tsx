@@ -10,7 +10,7 @@ interface BrandLogoProps {
    * is never recoloured or redrawn, only its on-screen presentation.
    */
   tone?: "dark" | "light";
-  priority?: boolean;
+  preload?: boolean;
 }
 
 /**
@@ -20,7 +20,7 @@ interface BrandLogoProps {
 export default function BrandLogo({
   className,
   tone = "dark",
-  priority = false,
+  preload = false,
 }: BrandLogoProps) {
   return (
     <Image
@@ -28,7 +28,7 @@ export default function BrandLogo({
       alt="AD Imperial"
       width={414}
       height={228}
-      priority={priority}
+      preload={preload}
       className={cx("brand-logo", tone === "light" && "brand-logo-light", className)}
     />
   );

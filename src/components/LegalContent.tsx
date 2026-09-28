@@ -4,8 +4,8 @@ import type { LegalDocument } from "@/src/data/legal";
 
 const LINK_RE = /\[([^\]]+)\]\(([^)]+)\)/g;
 
-/** Render a paragraph string, turning `[label](/href)` fragments into links. */
-function renderParagraph(text: string) {
+/** Render a paragraph string, turning `[label](/href)` fragments into links. Shared with guides. */
+export function renderParagraph(text: string) {
   const nodes: React.ReactNode[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;

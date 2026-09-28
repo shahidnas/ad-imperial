@@ -1,3 +1,5 @@
+import { isPendingConfirmation } from "@/src/data/productStatus";
+
 export interface Service {
   /** URL-safe identifier (used for anchors and enquiry pre-fill). */
   slug: string;
@@ -39,8 +41,8 @@ export const services: Service[] = [
       "Seamless matte or gloss finishes",
       "Ideal for shopfronts and building fascias",
     ],
-    image: "/services/acp2.jpeg",
-    imageAlt: "ACP sign board signage mounted on a storefront fascia",
+    image: "/services/acp-sign-board-bhikharam-chandmal.jpeg",
+    imageAlt: "Yellow ACP sign board with red letters above a Bhikharam Chandmal sweets and fast-food shop",
   },
   {
     slug: "stainless-steel-letters",
@@ -56,8 +58,8 @@ export const services: Service[] = [
       "Corrosion resistant for outdoor use",
       "Optional halo (back-lit) illumination",
     ],
-    image: "/services/stainless-steel-letters.jpeg",
-    imageAlt: "Polished stainless steel channel letters on a building wall",
+    image: "/services/stainless-steel-letters-fashion-store.jpeg",
+    imageAlt: "Gold-finish metal letters on a decorated fashion store frontage",
   },
   {
     slug: "gold-acrylic-letters",
@@ -73,8 +75,8 @@ export const services: Service[] = [
       "Sharp edges and smooth faces",
       "Great for logos and reception branding",
     ],
-    image: "/services/gold-acrylic-letter-2.jpeg",
-    imageAlt: "Golden acrylic letters forming a business name",
+    image: "/services/gold-acrylic-letters-sindharam-sanwarmal.jpeg",
+    imageAlt: "Gold acrylic letters for Sindharam Sanwarmal food products above a sweet shop",
   },
   {
     slug: "led-neon-signage",
@@ -90,8 +92,8 @@ export const services: Service[] = [
       "Custom neon-style bends and script",
       "Even, flicker-free illumination",
     ],
-    image: "/services/neon-sign-1.jpeg",
-    imageAlt: "Illuminated neon-style sign glowing at night",
+    image: "/services/neon-sign-cafe-welcome.jpeg",
+    imageAlt: "LED neon coffee-cup heartbeat sign and a Welcome to Opportunity Cafe neon script",
   },
   {
     slug: "channel-letters",
@@ -107,8 +109,8 @@ export const services: Service[] = [
       "Custom depth and typography",
       "High daytime and nighttime impact",
     ],
-    image: "/services/channel-letter-2.jpeg",
-    imageAlt: "Dimensional channel letters mounted on a facade",
+    image: "/services/channel-letter-vrinam-menswear.jpeg",
+    imageAlt: "Illuminated VRINAM MENS channel letters above a menswear store",
   },
   {
   slug: "led-letters",
@@ -124,8 +126,8 @@ export const services: Service[] = [
     "Front-lit or halo-lit options",
     "Custom fonts, sizes and finishes",
   ],
-  image: "/services/led-letter-3.jpeg",
-  imageAlt: "Illuminated LED letters mounted on a commercial building",
+  image: "/services/led-letters-healthworld-hospitals.jpeg",
+  imageAlt: "Red illuminated HEALTHWORLD HOSPITALS LED letters on a hospital building at dusk",
 },
 {
   slug: "acp-cladding",
@@ -141,8 +143,8 @@ export const services: Service[] = [
     "Weather-resistant and durable panels",
     "Custom colours, patterns and designs",
   ],
-  image: "/services/acp-cladding-1.jpeg",
-  imageAlt: "Modern ACP cladding installed on a commercial building facade",
+  image: "/services/acp-cladding-boundary-wall.jpeg",
+  imageAlt: "ACP cladding being installed on a boundary wall and gate structure",
 },
   {
     slug: "video-wall",
@@ -177,8 +179,11 @@ export const enquiryServiceOptions: Array<{ slug: string; title: string }> = [
   { slug: "letter-board", title: "Letter Board" },
   { slug: "sign-board", title: "Sign Board" },
   ...services.map(({ slug, title }) => ({ slug, title })),
+  { slug: "glow-sign-board", title: "Glow Sign Board" },
+  { slug: "acrylic-sign-board", title: "Acrylic Sign Board" },
+  { slug: "metal-letters", title: "Brass & Aluminium Letters" },
   { slug: "other", title: "Something else" },
-];
+].filter((option) => !isPendingConfirmation(option.slug));
 
 /** Human-readable label for an enquiry service slug, if it's a known one. */
 export function getEnquiryServiceLabel(slug: string): string | undefined {

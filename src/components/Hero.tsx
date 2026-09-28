@@ -7,6 +7,8 @@ import { routes } from "@/src/lib/navigation";
 
 interface HeroSlide {
   image: string;
+  /** Describes the photo itself — the title is marketing copy, not a description. */
+  alt: string;
   eyebrow: string;
   title: string;
   description: string;
@@ -14,28 +16,32 @@ interface HeroSlide {
 
 const slides: HeroSlide[] = [
   {
-    image: "/hero/bhikaram.jpeg",
+    image: "/hero/bhikharam-chandmal-shop-sign-board.jpeg",
+    alt: "Yellow ACP shop sign board with red lettering on the Bhikharam Chandmal storefront",
     eyebrow: "Letter Board & Signage Manufacturer",
-    title: "Premium Letter Boards & Signage Across West Bengal & Jharkhand.",
+    title: "Premium Letter Boards & Signage Across West Bengal, Jharkhand & Bihar.",
     description:
-      "Custom letter boards, sign boards and signage solutions designed, fabricated and installed for businesses across West Bengal, Jharkhand and India — from our studio in Kolkata.",
+      "Custom letter boards, sign boards and signage solutions designed, fabricated and installed for businesses across West Bengal, Jharkhand, Bihar and India — from our studio in Kolkata.",
   },
   {
-    image: "/hero/nursing.webp",
+    image: "/hero/healing-touch-nursing-home-signage.webp",
+    alt: "Building signage on the facade of Healing Touch Nursing Home, a multi-speciality and critical care centre",
     eyebrow: "Custom Letter Boards",
     title: "Designed to Make a Lasting Impression.",
     description:
       "From concept to installation, we create premium signage that perfectly represents your business.",
   },
   {
-    image: "/hero/kolkata.webp",
+    image: "/hero/i-love-kolkata-illuminated-letters.webp",
+    alt: "Illuminated 3D \"I love Kolkata\" letters reflected in water at night",
     eyebrow: "Precision. Quality. Finish.",
     title: "Details That Define Your Brand.",
     description:
       "High-quality materials, precision workmanship and refined finishing come together in every project.",
   },
   {
-    image: "/hero/market.webp",
+    image: "/hero/shahjan-sons-showroom-facade-signage.webp",
+    alt: "Illuminated facade signage on the Shahjan Sons & Co. family fashion showroom",
     eyebrow: "Built for Your Business",
     title: "Signage That Speaks Before You Do.",
     description:
@@ -105,7 +111,7 @@ export default function Hero() {
   return (
     <section
       className="hero-section"
-      aria-label="Premium letter board and signage solutions across West Bengal, Jharkhand and India"
+      aria-label="Premium letter board and signage solutions across West Bengal, Jharkhand, Bihar and India"
     >
       {/* =====================================
           BACKGROUND SLIDES
@@ -125,9 +131,10 @@ export default function Hero() {
             {/* Full-bleed background image (100vw), content overlays it. */}
             <Image
               src={slide.image}
-              alt={slide.title}
+              alt={slide.alt}
               fill
-              priority={index === 0}
+              preload={index === 0}
+              fetchPriority={index === 0 ? "high" : "low"}
               sizes="100vw"
               className="hero-image"
             />
@@ -142,69 +149,73 @@ export default function Hero() {
       ===================================== */}
 
       <div className="container hero-container">
-        <div className="hero-content">
-          <div
-            className="hero-content-inner"
-            key={activeSlide}
-          >
-            {/* Eyebrow */}
+        {/*
+          Every slide's text sits in the same grid cell, so the block is
+          always as tall as the longest slide and doesn't jump (layout
+          shift) when slides change. Only the active slide is visible and
+          interactive; it alone carries the page's single <h1>. Its key
+          changes with the slide so the entrance animation replays.
+        */}
+        <div className="hero-content hero-content-stack">
+          {slides.map((slide, index) => {
+            const active = index === activeSlide;
+            const Title = active ? "h1" : "p";
 
-            <div className="hero-eyebrow">
-              <span className="hero-eyebrow-line" />
-
-              <span>
-                {slides[activeSlide].eyebrow}
-              </span>
-            </div>
-
-            {/* Heading */}
-
-            <h1 className="hero-title">
-              {slides[activeSlide].title}
-            </h1>
-
-            {/* Paragraph */}
-
-            <p className="hero-description">
-              {slides[activeSlide].description}
-            </p>
-
-            {/* =================================
-                BUTTONS
-            ================================= */}
-
-            <div className="hero-actions">
-              {/* Primary */}
-
-              <Link
-                href={routes.contact}
-                className="btn-premium hero-primary-btn"
-                aria-label="Get a Free Quote"
+            return (
+              <div
+                className={`hero-content-inner${active ? "" : " hero-content-inner-hidden"}`}
+                key={active ? `active-${activeSlide}` : slide.image}
+                aria-hidden={!active}
+                inert={!active}
               >
-                <span>Get a Free Quote</span>
+                {/* Eyebrow */}
 
-                <i
-                  className="bi bi-arrow-up-right"
-                  aria-hidden="true"
-                />
-              </Link>
+                <div className="hero-eyebrow">
+                  <span className="hero-eyebrow-line" />
 
-              {/* Secondary */}
+                  <span>{slide.eyebrow}</span>
+                </div>
 
-              <Link
-                href={routes.gallery}
-                className="hero-secondary-btn"
-                aria-label="Explore Our Work"
-              >
-                <span>Explore Our Work</span>
+                {/* Heading */}
 
-                <i
-                  className="bi bi-arrow-right"
-                  aria-hidden="true"
-                />
-              </Link>
-            </div>
-          </div>
+                <Title className="hero-title">{slide.title}</Title>
+
+                {/* Paragraph */}
+
+                <p className="hero-description">{slide.description}</p>
+
+                {/* =================================
+                    BUTTONS
+                ================================= */}
+
+                <div className="hero-actions">
+                  {/* Primary */}
+
+                  <Link
+                    href={routes.contact}
+                    className="btn-premium hero-primary-btn"
+                    aria-label="Get a Free Quote"
+                  >
+                    <span>Get a Free Quote</span>
+
+                    <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                  </Link>
+
+                  {/* Secondary */}
+
+                  <Link
+                    href={routes.gallery}
+                    className="hero-secondary-btn"
+                    aria-label="Explore Our Work"
+                  >
+                    <span>Explore Our Work</span>
+
+                    <i className="bi bi-arrow-right" aria-hidden="true" />
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -242,7 +253,7 @@ export default function Hero() {
 
         <div
           className="hero-dots"
-          role="tablist"
+          role="group"
           aria-label="Hero slides"
         >
           {slides.map((slide, index) => (

@@ -1,16 +1,15 @@
-import type { Metadata } from "next";
 import LegalContent from "@/src/components/LegalContent";
 import PageHeader from "@/src/components/PageHeader";
 import { privacyPolicy } from "@/src/data/legal";
 import { routes } from "@/src/lib/navigation";
+import { buildMetadata } from "@/src/lib/seo";
 import { siteConfig } from "@/src/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Privacy Policy",
   description: `How ${siteConfig.name} handles information submitted through this website.`,
-  alternates: { canonical: routes.privacyPolicy },
-  robots: { index: true, follow: true },
-};
+  path: routes.privacyPolicy,
+});
 
 export default function PrivacyPolicyPage() {
   return (

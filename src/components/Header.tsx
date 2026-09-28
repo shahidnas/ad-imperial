@@ -29,7 +29,7 @@ export default function Header() {
       <div className="container">
         <nav className="header-nav" aria-label="Primary">
           <Link href={routes.home} className="site-logo" onClick={closeMenu}>
-            <BrandLogo className="site-logo-image" priority />
+            <BrandLogo className="site-logo-image" preload />
             <span className="site-logo-text brand-lockup-text" aria-hidden="true">
               Imperial
             </span>

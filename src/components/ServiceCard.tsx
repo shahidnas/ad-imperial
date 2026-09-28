@@ -6,15 +6,13 @@ import { routes } from "@/src/lib/navigation";
 
 interface ServiceCardProps {
   service: Service;
-  /** Index used only for the image `priority` hint. */
-  index?: number;
 }
 
 /**
  * A single row in the services list. Shared by the home "Services" section
  * and the dedicated /services page.
  */
-export default function ServiceCard({ service, index = 0 }: ServiceCardProps) {
+export default function ServiceCard({ service }: ServiceCardProps) {
   return (
     <article className="service-item" id={service.slug}>
       <div className="service-number">{service.number}</div>
@@ -33,7 +31,6 @@ export default function ServiceCard({ service, index = 0 }: ServiceCardProps) {
             fill
             sizes="(max-width: 767px) 100vw, 38vw"
             className="service-image"
-            priority={index === 0}
           />
         ) : null}
         <div className="service-image-overlay" />

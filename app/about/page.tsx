@@ -1,24 +1,19 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
 import { companyStats } from "@/src/lib/constants";
 import { routes } from "@/src/lib/navigation";
+import { buildMetadata } from "@/src/lib/seo";
 import { breadcrumbSchema } from "@/src/lib/schema";
 import { siteConfig } from "@/src/lib/site";
 
 const breadcrumbJsonLd = breadcrumbSchema([{ name: "About", path: routes.about }]);
 
-export const metadata: Metadata = {
-  title: "About Us",
-  description: `${siteConfig.name} designs, fabricates and installs premium letter boards and signage for businesses across India, from our studio in ${siteConfig.area}. Learn about our approach to materials, craftsmanship and finish.`,
-  alternates: { canonical: routes.about },
-  openGraph: {
-    title: `About ${siteConfig.name}`,
-    description: `Premium letter boards and signage, designed and fabricated in ${siteConfig.area} for clients across India.`,
-    url: routes.about,
-  },
-};
+export const metadata = buildMetadata({
+  title: "About Us — Signage Studio in Kolkata",
+  description: `${siteConfig.name} is a signage studio in ${siteConfig.area} that designs, fabricates and installs letter boards and sign boards for businesses across eastern India.`,
+  path: routes.about,
+});
 
 const values = [
   {
@@ -64,8 +59,8 @@ export default function AboutPage() {
           <div className="about-page-grid">
             <div className="about-page-media">
               <Image
-                src="/about/about.webp"
-                alt="Premium custom letter board signage crafted by AD Imperial"
+                src="/about/ad-imperial-illuminated-letter-board.webp"
+                alt="AD Imperial logo in illuminated gold dimensional letters on a dark wall"
                 width={720}
                 height={820}
                 className="about-page-image"

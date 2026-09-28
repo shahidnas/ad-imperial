@@ -1,7 +1,13 @@
 import type { MetadataRoute } from "next";
-import { absoluteUrl, siteConfig } from "@/src/lib/site";
+import { seoConfig } from "@/src/lib/seo";
+import { absoluteUrl } from "@/src/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
+  // Vercel preview/development deployments must never be indexed.
+  if (!seoConfig.isIndexable) {
+    return { rules: { userAgent: "*", disallow: "/" } };
+  }
+
   return {
     rules: {
       userAgent: "*",
@@ -9,6 +15,5 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ["/api/"],
     },
     sitemap: absoluteUrl("/sitemap.xml"),
-    host: siteConfig.url,
   };
 }
