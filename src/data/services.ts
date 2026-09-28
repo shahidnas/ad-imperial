@@ -158,14 +158,29 @@ export const services: Service[] = [
       "Weatherproof panels built for outdoor installation",
       "Professional structural mounting and calibration",
     ],
-    // Actual file already in /public/services (filename contains spaces,
-    // so it's referenced URL-encoded).
-    video:
-      "/services/WhatsApp%20Video%202026-09-06%20at%2011.52.46%20PM.mp4",
+    video: "/services/video-wall.mp4",
     videoAlt: "Installation footage of an outdoor LED video wall mounted on a commercial building facade",
   },
 ];
 
 export function getService(slug: string): Service | undefined {
   return services.find((service) => service.slug === slug);
+}
+
+/**
+ * Options for the contact form's "Service" dropdown, keyed by the same slug
+ * used in `/contact?service=<slug>`. The two pillar pages (letter-board,
+ * sign-board) aren't physical products in `services`, so they're listed here
+ * explicitly so they can be pre-selected too.
+ */
+export const enquiryServiceOptions: Array<{ slug: string; title: string }> = [
+  { slug: "letter-board", title: "Letter Board" },
+  { slug: "sign-board", title: "Sign Board" },
+  ...services.map(({ slug, title }) => ({ slug, title })),
+  { slug: "other", title: "Something else" },
+];
+
+/** Human-readable label for an enquiry service slug, if it's a known one. */
+export function getEnquiryServiceLabel(slug: string): string | undefined {
+  return enquiryServiceOptions.find((option) => option.slug === slug)?.title;
 }

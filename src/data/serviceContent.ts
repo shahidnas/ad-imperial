@@ -239,7 +239,7 @@ export const serviceContent: ServiceContentEntry[] = [
       },
     ],
     relatedSlugs: ["letter-board", "acp-sign-boards", "led-neon-signage", "channel-letters"],
-    pillarImage: "/hero/kolkata.png",
+    pillarImage: "/hero/kolkata.webp",
     pillarImageAlt: "Commercial building signage and sign boards across a city street",
   },
   {

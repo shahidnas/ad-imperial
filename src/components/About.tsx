@@ -49,7 +49,7 @@ export default function About() {
           <div className="about-image-wrapper">
             <div className="about-image-frame">
               <Image
-                src="/about/about.png"
+                src="/about/about.webp"
                 alt="Premium custom letter board signage"
                 fill
                 sizes="(max-width: 991px) 100vw, 50vw"

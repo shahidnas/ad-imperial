@@ -7,7 +7,8 @@ import type { Transporter } from "nodemailer";
  * Outlook/Office 365, Zoho Mail, Brevo's free SMTP relay, etc.), so no
  * particular paid vendor is required.
  *
- * The RECIPIENT is fixed to the client's provided address. The SENDER-SIDE
+ * The RECIPIENT defaults to nayeem.akhtar181@gmail.com (overridable with
+ * CONTACT_RECIPIENT_EMAIL) and is independent of the sender. The SENDER-SIDE
  * SMTP account is configured separately via environment variables (see
  * .env.example) — nothing here is a hardcoded credential. If those env vars
  * are absent, `isEmailConfigured()` returns false and no send is attempted;
@@ -15,7 +16,12 @@ import type { Transporter } from "nodemailer";
  */
 
 const RECIPIENT_EMAIL =
-  process.env.CONTACT_RECIPIENT_EMAIL?.trim() || "snasim@gmail.com";
+  process.env.CONTACT_RECIPIENT_EMAIL?.trim() || "nayeem.akhtar181@gmail.com";
+
+/** Where leads are delivered — safe to log (not a credential). */
+export function getRecipientEmail(): string {
+  return RECIPIENT_EMAIL;
+}
 
 export function isEmailConfigured(): boolean {
   return Boolean(
@@ -30,6 +36,8 @@ export interface ContactLead {
   name: string;
   phone: string;
   email: string;
+  company: string | null;
+  /** Human-readable service label, e.g. "Letter Board". */
   service: string | null;
   message: string;
   /** ISO timestamp. */
@@ -96,48 +104,61 @@ export async function sendContactEmail(lead: ContactLead): Promise<void> {
   const fromAddress = process.env.SMTP_FROM || (process.env.SMTP_USER as string);
   const submittedAt = formatSubmittedAt(lead.submittedAt);
 
+  const heading = "AD Imperial — New Website Enquiry";
+
   const rows: Array<[string, string]> = [
     ["Name", lead.name],
     ["Phone", lead.phone],
     ["Email", lead.email || "Not provided"],
-    ["Service", lead.service || "Not specified"],
-    ["Submitted", submittedAt],
+    ["Company", lead.company || "Not provided"],
+    ["Selected Service", lead.service || "Not specified"],
   ];
 
   const text = [
-    "New enquiry from the AD Imperial website",
+    heading,
     "",
     ...rows.map(([label, value]) => `${label}: ${value}`),
     "",
     "Message:",
     lead.message,
+    "",
+    `Submission Date/Time: ${submittedAt}`,
   ].join("\n");
 
+  const labelCell =
+    "padding: 10px 16px 10px 0; border-bottom: 1px solid #eeeeee; font-weight: 700; color: #555555; vertical-align: top; white-space: nowrap;";
+  const valueCell =
+    "padding: 10px 0; border-bottom: 1px solid #eeeeee; color: #111111; vertical-align: top;";
+
   const html = `
-    <div style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #111111;">
-      <h2 style="margin: 0 0 16px; font-size: 18px;">New enquiry from the AD Imperial website</h2>
-      <table cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
+    <div style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.5; color: #111111; max-width: 600px;">
+      <h2 style="margin: 0 0 4px; font-size: 20px;">${escapeHtml(heading)}</h2>
+      <p style="margin: 0 0 20px; color: #666666;">Submitted via the contact form on the AD Imperial website.</p>
+      <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 100%;">
         ${rows
           .map(
             ([label, value]) => `
           <tr>
-            <td style="font-weight: 700; padding-right: 12px; vertical-align: top; white-space: nowrap;">${escapeHtml(label)}</td>
-            <td>${escapeHtml(value)}</td>
+            <td style="${labelCell}">${escapeHtml(label)}</td>
+            <td style="${valueCell}">${escapeHtml(value)}</td>
           </tr>`,
           )
           .join("")}
       </table>
-      <p style="font-weight: 700; margin: 20px 0 4px;">Message</p>
-      <p style="white-space: pre-wrap; margin: 0;">${escapeHtml(lead.message)}</p>
+      <p style="font-weight: 700; color: #555555; margin: 20px 0 6px;">Message</p>
+      <div style="white-space: pre-wrap; padding: 12px 14px; background: #f7f7f7; border-radius: 6px;">${escapeHtml(lead.message)}</div>
+      <p style="margin: 20px 0 0; color: #666666;"><strong>Submission Date/Time:</strong> ${escapeHtml(submittedAt)}</p>
     </div>
   `;
 
   await transporter.sendMail({
+    // Always the configured SMTP account — never the visitor's address.
     from: fromAddress,
     to: RECIPIENT_EMAIL,
-    // So replying in the inbox goes straight back to the enquirer.
+    // Only a validated visitor address reaches here, so replying in the
+    // inbox goes straight back to the enquirer.
     replyTo: lead.email || undefined,
-    subject: `New website enquiry — ${lead.name}`,
+    subject: `${heading} — ${lead.name.replace(/\s+/g, " ")}`,
     text,
     html,
   });

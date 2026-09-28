@@ -21,21 +21,21 @@ const slides: HeroSlide[] = [
       "Custom letter boards, sign boards and signage solutions designed, fabricated and installed for businesses across West Bengal, Jharkhand and India — from our studio in Kolkata.",
   },
   {
-    image: "/hero/nursing.png",
+    image: "/hero/nursing.webp",
     eyebrow: "Custom Letter Boards",
     title: "Designed to Make a Lasting Impression.",
     description:
       "From concept to installation, we create premium signage that perfectly represents your business.",
   },
   {
-    image: "/hero/kolkata.png",
+    image: "/hero/kolkata.webp",
     eyebrow: "Precision. Quality. Finish.",
     title: "Details That Define Your Brand.",
     description:
       "High-quality materials, precision workmanship and refined finishing come together in every project.",
   },
   {
-    image: "/hero/market.png",
+    image: "/hero/market.webp",
     eyebrow: "Built for Your Business",
     title: "Signage That Speaks Before You Do.",
     description:

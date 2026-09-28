@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { services } from "@/src/data/services";
+import { enquiryServiceOptions } from "@/src/data/services";
 import { cx } from "@/src/lib/utils";
 
 interface ContactFormProps {
@@ -57,7 +57,8 @@ export default function ContactForm({ defaultService }: ContactFormProps) {
   const [values, setValues] = useState<FormState>({
     ...initialState,
     service:
-      defaultService && services.some((s) => s.slug === defaultService)
+      defaultService &&
+      enquiryServiceOptions.some((option) => option.slug === defaultService)
         ? defaultService
         : "",
   });
@@ -242,12 +243,11 @@ export default function ContactForm({ defaultService }: ContactFormProps) {
             onChange={update("service")}
           >
             <option value="">Select a service (optional)</option>
-            {services.map((service) => (
-              <option key={service.slug} value={service.slug}>
-                {service.title}
+            {enquiryServiceOptions.map((option) => (
+              <option key={option.slug} value={option.slug}>
+                {option.title}
               </option>
             ))}
-            <option value="other">Something else</option>
           </select>
         </div>
       </div>

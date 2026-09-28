@@ -64,7 +64,7 @@ export default function AboutPage() {
           <div className="about-page-grid">
             <div className="about-page-media">
               <Image
-                src="/about/about.png"
+                src="/about/about.webp"
                 alt="Premium custom letter board signage crafted by AD Imperial"
                 width={720}
                 height={820}
