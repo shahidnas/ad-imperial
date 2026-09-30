@@ -38,7 +38,7 @@ export const guides: Guide[] = [
     description:
       "What decides the cost of a sign board or letter board — size, material, lighting, fabrication detail and installation — and how to get an accurate quote.",
     datePublished: "2026-09-28",
-    dateModified: "2026-09-28",
+    dateModified: "2026-09-30",
     summary:
       "There's no single price for a sign board, because two boards that look similar can differ a lot in size, material, lighting and installation. This guide explains what drives the cost, so you can compare quotes fairly and decide where it's worth spending.",
     image: "/hero/bhikharam-chandmal-shop-sign-board.jpeg",
@@ -90,7 +90,7 @@ export const guides: Guide[] = [
         ],
       },
     ],
-    relatedServices: ["sign-board", "acp-sign-boards", "acrylic-sign-board", "led-letters"],
+    relatedServices: ["sign-board", "letter-board", "acp-sign-boards", "acrylic-sign-board", "led-letters"],
     relatedCities: ["kolkata", "ranchi", "patna"],
   },
   {
@@ -210,4 +210,12 @@ export const guides: Guide[] = [
 
 export function getGuide(slug: string): Guide | undefined {
   return guides.find((guide) => guide.slug === slug);
+}
+
+/**
+ * Guides that list a /services/[slug] page in their `relatedServices` — used
+ * for "Related Guides" links, so the link runs both ways from one source.
+ */
+export function getGuidesForService(slug: string): Guide[] {
+  return guides.filter((guide) => guide.relatedServices.includes(slug));
 }

@@ -10,11 +10,14 @@ import WhyChooseUs from "@/src/components/WhyChooseUs";
 import { buildMetadata } from "@/src/lib/seo";
 import { siteConfig } from "@/src/lib/site";
 
+// Brand + broad "signage company" intent. The narrower searches each have
+// their own page: "sign board manufacturer in Kolkata" → the Kolkata location
+// page, "letter board" → /services/letter-board.
 export const metadata = buildMetadata({
-  title: `Letter Board & Sign Board Manufacturer in Kolkata | ${siteConfig.name}`,
+  title: `Signage Company in Kolkata | ${siteConfig.name}`,
   absoluteTitle: true,
   description:
-    "Custom letter boards, sign boards, LED letters and ACP signage — designed, made and installed by AD Imperial in Kolkata for West Bengal, Jharkhand and Bihar.",
+    "AD Imperial is a Kolkata signage company designing, fabricating and installing sign boards, LED letters and ACP signage across West Bengal, Jharkhand and Bihar.",
   path: "/",
 });
 

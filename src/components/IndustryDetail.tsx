@@ -5,6 +5,7 @@ import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
 import PortfolioCard from "@/src/components/PortfolioCard";
 import { industries, type IndustryEntry } from "@/src/data/industries";
+import { getGuidesForService } from "@/src/data/guides";
 import { cities, cityPath, statePath, states } from "@/src/data/locations";
 import { getProjectImages } from "@/src/data/projectImages";
 import { routes } from "@/src/lib/navigation";
@@ -29,6 +30,8 @@ export default function IndustryDetail({ industry }: { industry: IndustryEntry }
   const servingCities = cities.filter((city) => city.industries.includes(industry.slug));
 
   const otherIndustries = industries.filter((entry) => entry.slug !== industry.slug);
+
+  const relatedGuides = getGuidesForService(industry.slug);
 
   const whatsapp = whatsappHref(
     `Hi ${siteConfig.name}, I'd like a quote for ${industry.name.toLowerCase()}.`,
@@ -218,6 +221,31 @@ export default function IndustryDetail({ industry }: { industry: IndustryEntry }
           </div>
         </div>
       </section>
+
+      {relatedGuides.length > 0 && (
+        <section className="service-detail-related">
+          <div className="container">
+            <div className="section-eyebrow">
+              <span className="section-eyebrow-line" />
+              <span>Related Guides</span>
+            </div>
+            <h2>Helpful Before You Order</h2>
+
+            <div className="related-services-grid">
+              {relatedGuides.map((guide) => (
+                <Link
+                  key={guide.slug}
+                  href={`${routes.guides}/${guide.slug}`}
+                  className="related-service-card"
+                >
+                  <span>{guide.title}</span>
+                  <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="service-detail-faq">
         <div className="container">

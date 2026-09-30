@@ -27,9 +27,10 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-const SITE_TITLE = "Letter Board & Sign Board Manufacturer in Kolkata";
+// Keep in sync with the homepage metadata (app/page.tsx).
+const SITE_TITLE = "Signage Company in Kolkata";
 const SITE_DESCRIPTION =
-  "Custom letter boards, sign boards, LED letters and ACP signage — designed, made and installed by AD Imperial in Kolkata for West Bengal, Jharkhand and Bihar.";
+  "AD Imperial is a Kolkata signage company designing, fabricating and installing sign boards, LED letters and ACP signage across West Bengal, Jharkhand and Bihar.";
 
 /**
  * Site-wide defaults. Every page overrides title/description/canonical/

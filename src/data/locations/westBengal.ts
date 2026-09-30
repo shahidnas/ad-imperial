@@ -65,7 +65,7 @@ export const westBengalCities: CityLocation[] = [
     slug: "kolkata",
     stateSlug: "west-bengal",
     name: "Kolkata",
-    metaTitle: "Kolkata Sign Board Maker — Site Visits & Installation",
+    metaTitle: "Sign Board Manufacturer in Kolkata — Site Visits & Installation",
     metaDescription:
       "Sign boards and letter boards made at our studio near Central Metro — ACP, acrylic, steel, LED and neon, with site visits and installation across Kolkata.",
     h1: "Sign Board & Letter Board",

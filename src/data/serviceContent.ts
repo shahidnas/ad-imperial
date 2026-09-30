@@ -19,13 +19,18 @@ export interface ServiceContentEntry {
   features: string[];
   benefits: string[];
   installation: string[];
-  /** Only set where it materially helps buyers choose — e.g. the two pillar pages. */
+  /**
+   * Only set where it materially helps buyers choose — e.g. the two pillar
+   * pages. Product pages render these sections too once real details are
+   * supplied; never fill them with unconfirmed claims (prices, lead times,
+   * warranties).
+   */
   types?: { name: string; description: string }[];
   /** Plain plural noun for the "Types of X" heading, e.g. "Letter Boards". Defaults to h1. */
   typesLabel?: string;
   /** Short paragraph on where/how the product is typically used — indoor vs outdoor. */
   usageContext?: string;
-  /** Only set where it materially helps buyers plan — e.g. the two pillar pages. */
+  /** Only set where it materially helps buyers plan — e.g. the two pillar pages. Same rule as `types`. */
   maintenance?: string[];
   faqs: ServiceFaq[];
   /** Slugs of related /services/[slug] pages, for internal linking. */
@@ -250,6 +255,7 @@ export const serviceContent: ServiceContentEntry[] = [
     metaDescription:
       "Custom ACP sign boards fabricated and installed by AD Imperial — weatherproof, seamless facade signage for shops and commercial buildings across India.",
     h1: "ACP Sign Board",
+    h1Accent: "Fabrication & Installation.",
     intro:
       "ACP (aluminium composite panel) sign boards give a storefront a flat, seamless, contemporary finish that holds its colour and shape for years. AD Imperial fabricates the panel, routes the graphics or lettering, and mounts everything to a level, weather-ready frame.",
     applications: [
@@ -310,6 +316,7 @@ export const serviceContent: ServiceContentEntry[] = [
     metaDescription:
       "Brushed and mirror-polished stainless steel letters, precision-cut and installed by AD Imperial for premium building and office signage across India.",
     h1: "Stainless Steel Letters",
+    h1Accent: "Fabrication & Installation.",
     intro:
       "Brushed or mirror-polished stainless steel letters add a solid, architectural weight to a facade. Each letter is cut, finished and stud-mounted for a crisp shadow line and a lasting premium look.",
     applications: [
@@ -370,6 +377,7 @@ export const serviceContent: ServiceContentEntry[] = [
     metaDescription:
       "Precision-cut gold and metallic-finish acrylic letters for reception walls, showrooms and shopfronts — fabricated and installed by AD Imperial.",
     h1: "Gold Acrylic Letters",
+    h1Accent: "Fabrication & Installation.",
     intro:
       "Acrylic letters are lightweight, colour-rich and easy to shape into custom typography. They work equally well indoors for reception walls and outdoors for shopfronts, with or without lighting.",
     applications: [
@@ -430,6 +438,7 @@ export const serviceContent: ServiceContentEntry[] = [
     metaDescription:
       "Custom LED neon signage fabricated and installed by AD Imperial — energy-efficient, weatherproof illuminated signs for shops and commercial spaces.",
     h1: "LED & Neon Signage",
+    h1Accent: "Fabrication & Installation.",
     intro:
       "From flexible LED neon to back-lit and edge-lit boards, illuminated signage keeps your brand visible after dark. We size the lighting for even brightness and a clean, low-maintenance installation.",
     applications: [
@@ -490,6 +499,7 @@ export const serviceContent: ServiceContentEntry[] = [
     metaDescription:
       "Custom front-lit and halo-lit channel letters, fabricated letter-by-letter and installed by AD Imperial for storefronts and corporate facades.",
     h1: "Channel Letters",
+    h1Accent: "Fabrication & Installation.",
     intro:
       "Built-up channel letters give depth and presence to a facade. Faces, returns and trim caps are assembled per letter, with front-lit or halo-lit options for round-the-clock visibility.",
     applications: [
@@ -550,6 +560,7 @@ export const serviceContent: ServiceContentEntry[] = [
     metaDescription:
       "Bright, energy-efficient LED letters designed, fabricated and installed by AD Imperial for storefronts, offices and commercial buildings.",
     h1: "LED Letters",
+    h1Accent: "Fabrication & Installation.",
     intro:
       "LED letters combine dimensional lettering with energy-efficient illumination for a clean, premium look. They are ideal for storefronts, building facades, reception areas and commercial spaces.",
     applications: [
@@ -610,6 +621,7 @@ export const serviceContent: ServiceContentEntry[] = [
     metaDescription:
       "ACP cladding fabrication and installation by AD Imperial — a seamless, weatherproof facade finish for commercial buildings and storefronts across India.",
     h1: "ACP Cladding",
+    h1Accent: "Fabrication & Installation.",
     intro:
       "ACP cladding creates a seamless architectural facade while protecting the exterior surface. We provide custom fabrication, precision cutting and professional installation for commercial buildings and storefronts.",
     applications: [
@@ -669,6 +681,7 @@ export const serviceContent: ServiceContentEntry[] = [
     metaDescription:
       "Outdoor and indoor LED video wall installation by AD Imperial — large-format dynamic displays for retail, corporate and commercial facades.",
     h1: "Video Wall",
+    h1Accent: "Installation.",
     intro:
       "Video walls are built from weatherproof LED panels, structurally mounted to the facade and calibrated for even brightness and colour — ideal where a static sign isn't enough for a busy commercial street front.",
     applications: [
@@ -793,6 +806,7 @@ export const serviceContent: ServiceContentEntry[] = [
     metaDescription:
       "Clear, coloured and frosted acrylic sign boards and name plates for offices, clinics, shops and reception areas, made at AD Imperial's Kolkata studio.",
     h1: "Acrylic Sign Boards",
+    h1Accent: "Fabrication & Installation.",
     intro:
       "Acrylic sign boards use cut, printed or layered acrylic sheet to create clean, modern signage — from office name plates and reception boards to clinic and department signs. They can be clear, coloured or frosted, and can be lit from the edge or from behind.",
     applications: [

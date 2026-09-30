@@ -2,8 +2,17 @@ import Link from "next/link";
 import BrandLogo from "@/src/components/BrandLogo";
 import { footerNav, legalNav, routes } from "@/src/lib/navigation";
 import { services } from "@/src/data/services";
-import { statePath, states } from "@/src/data/locations";
+import { cities, cityPath, statePath, states } from "@/src/data/locations";
+import { getServiceLinks } from "@/src/lib/serviceLinks";
 import { mailtoHref, siteConfig, telHref } from "@/src/lib/site";
+
+/** The two category pages, listed ahead of the individual products. */
+const pillarLinks = getServiceLinks(["letter-board", "sign-board"]);
+
+/** The city the studio is in — its page is the local landing page. */
+const studioCity = cities.find(
+  (city) => city.name === siteConfig.contact.address.locality,
+);
 
 export default function Footer() {
   const tel = telHref();
@@ -79,6 +88,11 @@ export default function Footer() {
             <div className="footer-column">
               <span className="footer-heading">Services</span>
               <div className="footer-links">
+                {pillarLinks.map((link) => (
+                  <Link key={link.slug} href={link.href}>
+                    {link.label}
+                  </Link>
+                ))}
                 {services.map((service) => (
                   <Link key={service.slug} href={`/services/${service.slug}`}>
                     {service.title}
@@ -91,6 +105,9 @@ export default function Footer() {
               <span className="footer-heading">Service Areas</span>
               <div className="footer-links">
                 <Link href={routes.locations}>All Locations</Link>
+                {studioCity && (
+                  <Link href={cityPath(studioCity)}>{studioCity.name}</Link>
+                )}
                 {states.map((state) => (
                   <Link key={state.slug} href={statePath(state.slug)}>
                     {state.name}

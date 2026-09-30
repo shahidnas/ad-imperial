@@ -8,6 +8,7 @@ import JsonLd from "@/src/components/JsonLd";
 import PageCta from "@/src/components/PageCta";
 import PageHeader from "@/src/components/PageHeader";
 import ServiceVideo from "@/src/components/ServiceVideo";
+import { getGuidesForService } from "@/src/data/guides";
 import { allIndustrySlugs, getIndustry } from "@/src/data/industries";
 import { cities, cityPath, statePath, states } from "@/src/data/locations";
 import { getProjectImage } from "@/src/data/projectImages";
@@ -29,6 +30,29 @@ export function generateStaticParams() {
 
 /** Cities linked from every service page — one or two per state. */
 const FEATURED_CITY_SLUGS = ["kolkata", "howrah", "asansol", "ranchi", "jamshedpur", "patna"];
+
+/** Fewest city links a service page shows. */
+const MIN_CITY_LINKS = 6;
+
+/**
+ * Cities whose own page recommends this service (their `serviceHighlights`),
+ * topped up with the featured cities so every page links a few. Links only
+ * follow relationships the location data already states, and spread internal
+ * links across all city pages instead of the same six everywhere.
+ */
+function citiesFor(slug: string) {
+  const picked = new Set(
+    cities
+      .filter((city) => city.serviceHighlights.some((item) => item.slug === slug))
+      .map((city) => city.slug),
+  );
+  for (const citySlug of FEATURED_CITY_SLUGS) {
+    if (picked.size >= MIN_CITY_LINKS) break;
+    picked.add(citySlug);
+  }
+  // Keep the data's state-by-state order.
+  return cities.filter((city) => picked.has(city.slug));
+}
 
 function imageFor(slug: string) {
   const content = getServiceContent(slug);
@@ -98,9 +122,8 @@ export default async function ServiceDetailPage({
   const hasMedia = Boolean(video || image);
 
   const related = getServiceLinks(content.relatedSlugs);
-  const featuredCities = FEATURED_CITY_SLUGS.map((citySlug) =>
-    cities.find((city) => city.slug === citySlug),
-  ).filter((city): city is NonNullable<typeof city> => Boolean(city));
+  const relatedGuides = getGuidesForService(slug);
+  const featuredCities = citiesFor(slug);
 
   const whatsapp = whatsappHref(
     `Hi ${siteConfig.name}, I'd like a quote for ${content.h1}.`,
@@ -294,6 +317,31 @@ export default async function ServiceDetailPage({
                   className="related-service-card"
                 >
                   <span>{entry.label}</span>
+                  <i className="bi bi-arrow-up-right" aria-hidden="true" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {relatedGuides.length > 0 && (
+        <section className="service-detail-related">
+          <div className="container">
+            <div className="section-eyebrow">
+              <span className="section-eyebrow-line" />
+              <span>Related Guides</span>
+            </div>
+            <h2>Helpful Before You Order</h2>
+
+            <div className="related-services-grid">
+              {relatedGuides.map((guide) => (
+                <Link
+                  key={guide.slug}
+                  href={`${routes.guides}/${guide.slug}`}
+                  className="related-service-card"
+                >
+                  <span>{guide.title}</span>
                   <i className="bi bi-arrow-up-right" aria-hidden="true" />
                 </Link>
               ))}
