@@ -95,22 +95,16 @@ function orderIndex(category: string): number {
   return i === -1 ? CATEGORY_ORDER.length : i;
 }
 
-let cache: { items: GalleryItem[]; categories: string[] } | null = null;
-
-export function getServiceGallery(): {
+/**
+ * Orders, categorises and labels gallery files. Pure (no filesystem access)
+ * so it can be unit tested; `getServiceGallery()` feeds it the directory
+ * listing. Non-image files are ignored.
+ */
+export function buildGallery(fileNames: readonly string[]): {
   items: GalleryItem[];
   categories: string[];
 } {
-  if (cache) return cache;
-
-  const dir = path.join(process.cwd(), "public", "services");
-
-  let files: string[] = [];
-  try {
-    files = fs.readdirSync(dir).filter((file) => IMAGE_EXT.test(file));
-  } catch {
-    files = [];
-  }
+  const files = fileNames.filter((file) => IMAGE_EXT.test(file));
 
   files.sort((a, b) => {
     const byCategory = orderIndex(categoryFor(a)) - orderIndex(categoryFor(b));
@@ -151,7 +145,27 @@ export function getServiceGallery(): {
     ),
   ];
 
-  cache = { items, categories };
+  return { items, categories };
+}
+
+let cache: { items: GalleryItem[]; categories: string[] } | null = null;
+
+export function getServiceGallery(): {
+  items: GalleryItem[];
+  categories: string[];
+} {
+  if (cache) return cache;
+
+  const dir = path.join(process.cwd(), "public", "services");
+
+  let files: string[] = [];
+  try {
+    files = fs.readdirSync(dir);
+  } catch {
+    files = [];
+  }
+
+  cache = buildGallery(files);
   return cache;
 }
 

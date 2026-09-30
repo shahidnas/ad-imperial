@@ -17,6 +17,8 @@ npm run dev        # http://localhost:3000
 ```bash
 npm run build && npm start   # production build
 npm run lint                 # eslint
+npm run typecheck            # tsc --noEmit
+npm test                     # vitest: contact validation + gallery ordering
 ```
 
 ## Configuration
@@ -27,13 +29,13 @@ Never commit real credentials; `.env*` files are gitignored.
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Production origin — canonical URLs, Open Graph, sitemap, robots |
+| `NEXT_PUBLIC_SITE_URL` | Production origin — canonical URLs, Open Graph, sitemap, robots. Defaults to `https://adimperial.in`. |
 | `NEXT_PUBLIC_CONTACT_PHONE` / `_EMAIL` / `_WHATSAPP` / `NEXT_PUBLIC_GSTIN` | Override the business details in `src/lib/site.ts`. Blank values are hidden from the UI. |
 | `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASSWORD` | **Required for email delivery.** SMTP account that *sends* contact-form leads (e.g. Gmail with an app password). Server-side only. |
 | `SMTP_SECURE` | Optional. `true` for implicit TLS; auto-detected from the port when blank (465 = TLS, otherwise STARTTLS). |
 | `SMTP_FROM` | Optional sender address / display name. Defaults to `SMTP_USER`. |
-| `CONTACT_RECIPIENT_EMAIL` | Where leads are delivered. Defaults to `nayeem.akhtar181@gmail.com`. |
-| `CONTACT_WEBHOOK_URL` | Optional. Leads are also POSTed here as JSON (Zapier / Make / n8n / Slack / Discord). |
+| `CONTACT_RECIPIENT_EMAIL` | Where leads are delivered. Set it in production; falls back to `nayeem.akhtar181@gmail.com` (the log notes when the fallback is used). |
+| `CONTACT_WEBHOOK_URL` | Optional. Leads are also POSTed here as JSON (Zapier / Make / n8n / Slack / Discord). 5-second timeout. |
 
 ## Project structure
 
@@ -101,12 +103,20 @@ ContactForm  →  POST /api/contact  →  Nodemailer (SMTP)  →  CONTACT_RECIPI
 - A hidden `company` honeypot field silently drops bot submissions.
 - Rate-limited to 5 submissions per IP per 10 minutes (`429` + `Retry-After`).
   The limiter is in-memory ([`src/lib/rateLimit.ts`](src/lib/rateLimit.ts)), so
-  on multi-instance/serverless hosting each instance counts separately.
+  on multi-instance/serverless hosting each instance counts separately. The
+  client IP comes from `x-real-ip` (set by Vercel, not spoofable there), falling
+  back to `x-forwarded-for`.
+- Validation lives in [`src/lib/contactValidation.ts`](src/lib/contactValidation.ts)
+  (unit tested).
+- Delivery can't hang the request: the webhook times out after 5 s and SMTP
+  after 10 s to connect / 20 s of inactivity; a timeout counts as a failed channel.
 - Emails are sent by [`src/lib/mailer.ts`](src/lib/mailer.ts) **from** the SMTP
   account and **to** `CONTACT_RECIPIENT_EMAIL`, with `Reply-To` set to the
   visitor's email when they provide one. Times are shown in IST.
-- If no channel is configured (or all fail), the lead is logged server-side
-  and the response reports `delivered: false`.
+- If no channel is configured (or all fail), the lead is logged server-side at
+  error level and the response reports `delivered: false`. Hosting logs are
+  short-lived, so this is not a durable backup — configure both SMTP and a
+  webhook in production if losing a lead to a mail outage matters.
 
 Service pages link to `/contact?service=<slug>` to pre-select the service in
 the form; the options come from `enquiryServiceOptions` in

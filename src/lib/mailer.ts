@@ -15,12 +15,24 @@ import type { Transporter } from "nodemailer";
  * the API route falls back to logging the lead server-side.
  */
 
-const RECIPIENT_EMAIL =
-  process.env.CONTACT_RECIPIENT_EMAIL?.trim() || "nayeem.akhtar181@gmail.com";
+const RECIPIENT_FROM_ENV = process.env.CONTACT_RECIPIENT_EMAIL?.trim() || "";
+
+/**
+ * Kept as a fallback so existing deployments without CONTACT_RECIPIENT_EMAIL
+ * keep delivering. Production should set the env var explicitly.
+ */
+const DEFAULT_RECIPIENT_EMAIL = "nayeem.akhtar181@gmail.com";
+
+const RECIPIENT_EMAIL = RECIPIENT_FROM_ENV || DEFAULT_RECIPIENT_EMAIL;
 
 /** Where leads are delivered — safe to log (not a credential). */
 export function getRecipientEmail(): string {
   return RECIPIENT_EMAIL;
+}
+
+/** False when the built-in fallback recipient is in use. */
+export function isRecipientConfigured(): boolean {
+  return Boolean(RECIPIENT_FROM_ENV);
 }
 
 export function isEmailConfigured(): boolean {
@@ -63,6 +75,13 @@ function getTransporter(): Transporter {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASSWORD,
     },
+    // Nodemailer's defaults (2 min to connect, 10 min idle socket) could hold
+    // a contact-form request open far past the serverless function limit.
+    // A normal send completes in a few seconds; past these, fail fast so the
+    // route can log the lead and respond.
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 20_000,
   });
 
   return cachedTransporter;

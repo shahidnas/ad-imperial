@@ -3,9 +3,15 @@ import { getEnquiryServiceLabel } from "@/src/data/services";
 import {
   getRecipientEmail,
   isEmailConfigured,
+  isRecipientConfigured,
   sendContactEmail,
   type ContactLead,
 } from "@/src/lib/mailer";
+import {
+  MAX_BODY_CHARS,
+  readFields,
+  validate,
+} from "@/src/lib/contactValidation";
 import { createRateLimiter, getClientIp } from "@/src/lib/rateLimit";
 
 /**
@@ -36,79 +42,18 @@ import { createRateLimiter, getClientIp } from "@/src/lib/rateLimit";
 
 export const runtime = "nodejs";
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PHONE_RE = /^[+()\-\s\d]{7,20}$/;
-
-/** Anything larger than this can't be a genuine enquiry. */
-const MAX_BODY_CHARS = 20_000;
-
-const MAX_LENGTHS = {
-  name: 100,
-  phone: 20,
-  email: 254,
-  company: 200,
-  service: 100,
-  message: 5000,
-} as const;
-
-type Field = keyof typeof MAX_LENGTHS;
-
 // 5 submissions per IP per 10 minutes — plenty for a real visitor fixing a
 // typo or sending a follow-up, while stopping scripted floods.
 const checkRateLimit = createRateLimiter({ limit: 5, windowMs: 10 * 60 * 1000 });
 
+/**
+ * A webhook that doesn't answer within this window counts as failed, so a
+ * slow or hung endpoint can never hold the visitor's submission open.
+ */
+const WEBHOOK_TIMEOUT_MS = 5000;
+
 function badRequest(message = "Invalid request body.") {
   return NextResponse.json({ ok: false, message }, { status: 400 });
-}
-
-/**
- * Reads every known field as a trimmed string. Returns null if the body
- * isn't a plain object or any present field isn't a string, so nothing
- * downstream ever calls `.trim()` on a number, object or array.
- */
-function readFields(body: unknown): Record<Field, string> | null {
-  if (typeof body !== "object" || body === null || Array.isArray(body)) {
-    return null;
-  }
-
-  const record = body as Record<string, unknown>;
-  const fields = {} as Record<Field, string>;
-
-  for (const field of Object.keys(MAX_LENGTHS) as Field[]) {
-    const value = record[field];
-    if (value === undefined || value === null) {
-      fields[field] = "";
-    } else if (typeof value === "string") {
-      fields[field] = value.trim();
-    } else {
-      return null;
-    }
-  }
-
-  return fields;
-}
-
-function validate(fields: Record<Field, string>) {
-  const errors: Partial<Record<Field, string>> = {};
-  const { name, phone, email, message, service } = fields;
-
-  if (name.length < 2 || name.length > MAX_LENGTHS.name) {
-    errors.name = "Please enter your name.";
-  }
-  if (!PHONE_RE.test(phone)) errors.phone = "Please enter a valid phone number.";
-  if (email && (email.length > MAX_LENGTHS.email || !EMAIL_RE.test(email))) {
-    errors.email = "Please enter a valid email address.";
-  }
-  if (message.length < 10) {
-    errors.message = "Please add a few words about your project.";
-  } else if (message.length > MAX_LENGTHS.message) {
-    errors.message = `Please keep your message under ${MAX_LENGTHS.message} characters.`;
-  }
-  if (service.length > MAX_LENGTHS.service) {
-    errors.service = "Please choose a service from the list.";
-  }
-
-  return errors;
 }
 
 interface Lead extends ContactLead {
@@ -121,6 +66,9 @@ async function postWebhook(webhookUrl: string, lead: Lead): Promise<void> {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(lead),
+    // Aborts with a TimeoutError, which deliverLead catches and logs like
+    // any other webhook failure.
+    signal: AbortSignal.timeout(WEBHOOK_TIMEOUT_MS),
   });
 
   if (!res.ok) {
@@ -142,7 +90,12 @@ async function deliverLead(
   const tasks: Promise<void>[] = [];
 
   if (isEmailConfigured()) {
-    console.info(`[contact] sending lead email to ${getRecipientEmail()}`);
+    console.info(
+      `[contact] sending lead email to ${getRecipientEmail()}` +
+        (isRecipientConfigured()
+          ? ""
+          : " (built-in default; set CONTACT_RECIPIENT_EMAIL)"),
+    );
     tasks.push(
       sendContactEmail(lead).then(
         () => {
@@ -203,7 +156,11 @@ export async function POST(request: Request) {
   const fields = readFields(body);
   if (!fields) return badRequest();
 
-  // Honeypot: silently accept but do nothing.
+  // Honeypot: silently accept but do nothing. The response deliberately
+  // matches a real success so a bot can't tell it was filtered and adapt.
+  // Nothing is sent to any channel, so this never inflates lead counts; if
+  // client-side analytics are added later, count leads on the server (in
+  // deliverLead) rather than from this response.
   if (fields.company !== "") {
     return NextResponse.json({ ok: true, delivered: true });
   }
@@ -237,7 +194,9 @@ export async function POST(request: Request) {
     if (!delivered) {
       // No delivery channel configured (or all configured channels
       // failed) — keep a server-side record so the lead isn't lost.
-      console.info("[contact] new lead (not delivered to any channel):", lead);
+      // Logged at error level so it stands out in the hosting logs (and can
+      // drive a log alert) — this record is the only copy of the lead.
+      console.error("[contact] new lead (not delivered to any channel):", lead);
     }
 
     return NextResponse.json({ ok: true, delivered });

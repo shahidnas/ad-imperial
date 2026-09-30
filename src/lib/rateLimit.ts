@@ -51,12 +51,26 @@ export function createRateLimiter(options: { limit: number; windowMs: number }) 
   };
 }
 
-/** Best-effort client IP from the standard proxy headers. */
+/**
+ * Best-effort client IP.
+ *
+ * `x-real-ip` comes first: Vercel sets it to the connecting client's address
+ * and overwrites any value the client sent (it is what `ipAddress()` from
+ * `@vercel/functions` reads), and reverse proxies such as nginx commonly set
+ * it the same way. `x-forwarded-for` is only a fallback — on Vercel it is
+ * also overwritten, but behind other hosts its first entry can be forged by
+ * the client, which would let a scripted sender dodge the limit (never block
+ * anyone else). Without either header every request shares one "unknown"
+ * bucket, which only happens in local development.
+ */
 export function getClientIp(request: Request): string {
+  const realIp = request.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {
     const first = forwarded.split(",")[0]?.trim();
     if (first) return first;
   }
-  return request.headers.get("x-real-ip")?.trim() || "unknown";
+  return "unknown";
 }
