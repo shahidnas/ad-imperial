@@ -77,7 +77,7 @@ export default function WhyChooseUs() {
 
             <div className="why-brand-center">
               <div className="why-ring">
-                <span>10+</span>
+                <span>16+</span>
                 <small>YEARS OF</small>
                 <small>CRAFTSMANSHIP</small>
               </div>

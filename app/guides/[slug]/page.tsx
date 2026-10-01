@@ -123,7 +123,7 @@ export default async function GuidePage({
             <span className="section-eyebrow-line" />
             <span>Related</span>
           </div>
-          <h2>Services and Locations Mentioned</h2>
+          <h2>Related Services and Locations</h2>
 
           <div className="related-services-grid">
             {services.map((service) => (

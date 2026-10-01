@@ -90,7 +90,18 @@ export const guides: Guide[] = [
         ],
       },
     ],
-    relatedServices: ["sign-board", "letter-board", "acp-sign-boards", "acrylic-sign-board", "led-letters"],
+    relatedServices: [
+      "sign-board",
+      "letter-board",
+      "acp-sign-boards",
+      "acrylic-sign-board",
+      "led-letters",
+      "channel-letters",
+      "stainless-steel-letters",
+      "gold-acrylic-letters",
+      "led-neon-signage",
+      "acp-cladding",
+    ],
     relatedCities: ["kolkata", "ranchi", "patna"],
   },
   {
@@ -100,7 +111,7 @@ export const guides: Guide[] = [
     description:
       "How to choose a shop sign board — ACP vs acrylic vs LED and back-lit signs, sizing, readability and night-time visibility — from a signage maker.",
     datePublished: "2026-09-28",
-    dateModified: "2026-09-28",
+    dateModified: "2026-09-30",
     summary:
       "The right shop sign depends on your frontage, your street, your trading hours and your brand. Here's how to think it through, and how the common options compare.",
     image: "/services/channel-letter-vrinam-menswear.jpeg",
@@ -142,7 +153,7 @@ export const guides: Guide[] = [
         ],
       },
     ],
-    relatedServices: ["shop-sign-board", "acp-sign-boards", "channel-letters", "gold-acrylic-letters"],
+    relatedServices: ["shop-sign-board", "acp-sign-boards", "channel-letters", "gold-acrylic-letters", "led-neon-signage"],
     relatedCities: ["kolkata", "howrah", "asansol", "bhagalpur"],
   },
   {
@@ -152,7 +163,7 @@ export const guides: Guide[] = [
     description:
       "How to maintain sign boards, LED letters and back-lit signs in eastern India's conditions — cleaning, monsoon checks, electrical safety and when to call for repair.",
     datePublished: "2026-09-28",
-    dateModified: "2026-09-28",
+    dateModified: "2026-09-30",
     summary:
       "A well-made sign needs very little attention, but a few simple habits keep it looking sharp and working safely for years — especially through dusty summers and heavy monsoons.",
     image: "/services/led-letters-healthworld-hospitals.jpeg",
@@ -203,7 +214,7 @@ export const guides: Guide[] = [
         ],
       },
     ],
-    relatedServices: ["led-letters", "led-neon-signage", "acp-sign-boards", "stainless-steel-letters"],
+    relatedServices: ["led-letters", "led-neon-signage", "acp-sign-boards", "stainless-steel-letters", "gold-acrylic-letters"],
     relatedCities: ["dhanbad", "asansol", "siliguri", "gaya"],
   },
 ];

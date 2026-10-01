@@ -108,6 +108,20 @@ export default async function ContactPage({
                     <span key={line}>{line}</span>
                   ))}
                 </address>
+                <p>
+                  <a
+                    href={siteConfig.contact.googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View on Google Maps
+                  </a>
+                </p>
+              </div>
+
+              <div className="contact-aside-meta">
+                <span className="contact-channel-label">Opening hours</span>
+                <p>{siteConfig.contact.hours.label}</p>
               </div>
 
               <div className="contact-aside-meta">

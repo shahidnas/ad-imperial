@@ -64,8 +64,9 @@ export default function About() {
             {/* Experience Badge */}
 
             <div className="about-experience">
+              {/* Business started in 2010. */}
               <span className="about-experience-number">
-                10+
+                16+
               </span>
 
               <span className="about-experience-text">

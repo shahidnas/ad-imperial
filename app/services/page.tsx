@@ -39,7 +39,7 @@ export default function ServicesPage() {
 
       <PageHeader
         eyebrow="What We Create"
-        title="Signage,"
+        title="Signage Services,"
         titleAccent="Crafted For Impact."
         intro="AD Imperial provides custom letter board, sign board and signage solutions for businesses, retail stores, offices and commercial properties across India. Explore each service below, or start with the two core categories: letter boards and sign boards."
         crumbs={[{ label: "Services" }]}

@@ -142,6 +142,11 @@ export default function Footer() {
                 </address>
               </div>
 
+              <div className="footer-contact-item">
+                <small>HOURS</small>
+                <p>{siteConfig.contact.hours.label}</p>
+              </div>
+
               {gstin && (
                 <div className="footer-contact-item footer-gstin">
                   <small>GSTIN</small>

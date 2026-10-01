@@ -60,13 +60,31 @@ export const siteConfig = {
   contact: {
     /** Display form of the primary mobile number. */
     phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || "+91 97094 67647",
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "nayeem.akhtar181@gmail.com",
     /** Digits only, international format, e.g. "919876543210". */
     whatsapp: process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || "919709467647",
     /** Goods & Services Tax Identification Number. */
     gstin: process.env.NEXT_PUBLIC_GSTIN || "19AIGPA8165N1ZS",
     address,
+    /** Opening hours as displayed, and as structured data (24-hour times). */
+    hours: {
+      label: "Mon–Sat 10:00 AM – 7:00 PM · Sunday closed",
+      specification: [
+        {
+          days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          opens: "10:00",
+          closes: "19:00",
+        },
+      ],
+    },
+    /** The verified Google Business Profile (stable cid link). */
+    googleMapsUrl: "https://maps.google.com/?cid=9300404611108403039",
+    /** The studio's map pin, as confirmed on the Google Business Profile. */
+    geo: { latitude: 22.570736, longitude: 88.356736 },
   },
+
+  /** Year the business started — used for schema `foundingDate`. */
+  foundingYear: 2010,
 
   /**
    * Only add entries that point to a real profile. Empty list = the social

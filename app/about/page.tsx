@@ -78,7 +78,8 @@ export default function AboutPage() {
 
               <p>
                 AD Imperial is a signage studio focused on one thing: making
-                businesses look established. From elegant stainless-steel letters
+                businesses look established. We have been designing and
+                fabricating signage in Kolkata since 2010. From elegant stainless-steel letters
                 and acrylic signage to illuminated boards and 3D channel letters,
                 every project is designed and crafted to represent a brand with
                 confidence — for clients across India, not just Kolkata.

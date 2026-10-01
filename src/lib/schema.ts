@@ -3,8 +3,9 @@ import { absoluteUrl, siteConfig } from "@/src/lib/site";
 
 /**
  * JSON-LD builders. Only accurate, visible business information is emitted —
- * no ratings, reviews, prices, opening hours or branch addresses, since none
- * are published by the business.
+ * opening hours, map pin and founding year are owner-confirmed and shown on
+ * the site; no ratings, reviews, prices or branch addresses, since none are
+ * published by the business.
  */
 
 /** Stable @id of the single LocalBusiness entity, referenced by every Service. */
@@ -15,7 +16,7 @@ type AreaType = "City" | "State" | "Country";
 
 /** Site-wide LocalBusiness (the Kolkata studio) — rendered once in the root layout. */
 export function localBusinessSchema() {
-  const { phone, email, address, gstin } = siteConfig.contact;
+  const { phone, email, address, gstin, hours, geo, googleMapsUrl } = siteConfig.contact;
 
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -58,9 +59,23 @@ export function localBusinessSchema() {
   if (phone) data.telephone = phone;
   if (email) data.email = email;
   if (gstin) data.taxID = gstin;
-  if (siteConfig.socials.length > 0) {
-    data.sameAs = siteConfig.socials.map((social) => social.href);
-  }
+
+  data.foundingDate = String(siteConfig.foundingYear);
+  data.openingHoursSpecification = hours.specification.map((entry) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: entry.days,
+    opens: entry.opens,
+    closes: entry.closes,
+  }));
+  data.geo = {
+    "@type": "GeoCoordinates",
+    latitude: geo.latitude,
+    longitude: geo.longitude,
+  };
+  data.hasMap = googleMapsUrl;
+
+  // The Google Business Profile plus any real social profiles.
+  data.sameAs = [googleMapsUrl, ...siteConfig.socials.map((social) => social.href)];
 
   return data;
 }
